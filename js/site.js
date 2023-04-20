@@ -1,7 +1,7 @@
 var meals = [
   {
     id: null,
-    date: "2023/01/01",
+    date: "2023-01-01",
     name: "Eggs and toast",
     type: "Breakfast",
     calories: 500,
@@ -10,7 +10,7 @@ var meals = [
   },
   {
     id: null,
-    date: "2023/01/01",
+    date: "2023-01-01",
     name: "Soup and sandwich",
     type: "Lunch",
     calories: 600,
@@ -19,7 +19,7 @@ var meals = [
   },
   {
     id: null,
-    date: "2023/01/01",
+    date: "2023-01-01",
     name: "Chicken and sald",
     type: "Dinner",
     calories: 900,
@@ -28,7 +28,7 @@ var meals = [
   },
   {
     id: null,
-    date: "2023/01/02",
+    date: "2023-01-02",
     name: "Pancakes and bacon",
     type: "Breakfast",
     calories: 500,
@@ -37,7 +37,7 @@ var meals = [
   },
   {
     id: null,
-    date: "2023/01/02",
+    date: "2023-01-02",
     name: "burrito",
     type: "Lunch",
     calories: 600,
@@ -46,7 +46,7 @@ var meals = [
   },
   {
     id: null,
-    date: "2023/01/02",
+    date: "2023-01-02",
     name: "Steak and potatoes",
     type: "Dinner",
     calories: 900,
@@ -55,7 +55,7 @@ var meals = [
   },
   {
     id: null,
-    date: "2023/01/03",
+    date: "2023-01-03",
     name: "Bacon McMuffin",
     type: "Breakfast",
     calories: 500,
@@ -64,7 +64,7 @@ var meals = [
   },
   {
     id: null,
-    date: "2023/01/03",
+    date: "2023-01-03",
     name: "Donair",
     type: "Lunch",
     calories: 600,
@@ -73,7 +73,7 @@ var meals = [
   },
   {
     id: null,
-    date: "2023/01/03",
+    date: "2023-01-03",
     name: "Rice and chicken",
     type: "Dinner",
     calories: 900,
@@ -82,7 +82,7 @@ var meals = [
   },
   {
     id: null,
-    date: "2023/01/04",
+    date: "2023-01-04",
     name: "French toast",
     type: "Breakfast",
     calories: 500,
@@ -91,7 +91,7 @@ var meals = [
   },
   {
     id: null,
-    date: "2023/01/04",
+    date: "2023-01-04",
     name: "BLT",
     type: "Lunch",
     calories: 600,
@@ -100,7 +100,7 @@ var meals = [
   },
   {
     id: null,
-    date: "2023/01/04",
+    date: "2023-01-04",
     name: "Lamb curry",
     type: "Dinner",
     calories: 900,
@@ -109,7 +109,7 @@ var meals = [
   },
   {
     id: null,
-    date: "2023/01/05",
+    date: "2023-01-05",
     name: "Eggs and toast",
     type: "Breakfast",
     calories: 500,
@@ -118,7 +118,7 @@ var meals = [
   },
   {
     id: null,
-    date: "2023/01/05",
+    date: "2023-01-05",
     name: "Soup and sandwich",
     type: "Lunch",
     calories: 600,
@@ -127,7 +127,7 @@ var meals = [
   },
   {
     id: null,
-    date: "2023/01/05",
+    date: "2023-01-05",
     name: "Chicken and sald",
     type: "Dinner",
     calories: 900,
@@ -136,7 +136,7 @@ var meals = [
   },
   {
     id: null,
-    date: "2023/01/06",
+    date: "2023-01-06",
     name: "Pancakes and bacon",
     type: "Breakfast",
     calories: 500,
@@ -145,7 +145,7 @@ var meals = [
   },
   {
     id: null,
-    date: "2023/01/06",
+    date: "2023-01-06",
     name: "burrito",
     type: "Lunch",
     calories: 600,
@@ -154,7 +154,7 @@ var meals = [
   },
   {
     id: null,
-    date: "2023/01/06",
+    date: "2023-01-06",
     name: "Steak and potatoes",
     type: "Dinner",
     calories: 900,
@@ -163,7 +163,7 @@ var meals = [
   },
   {
     id: null,
-    date: "2023/01/07",
+    date: "2023-01-07",
     name: "Bacon McMuffin",
     type: "Breakfast",
     calories: 500,
@@ -172,7 +172,7 @@ var meals = [
   },
   {
     id: null,
-    date: "2023/01/07",
+    date: "2023-01-07",
     name: "Donair",
     type: "Lunch",
     calories: 600,
@@ -181,7 +181,7 @@ var meals = [
   },
   {
     id: null,
-    date: "2023/01/07",
+    date: "2023-01-07",
     name: "Rice and chicken",
     type: "Dinner",
     calories: 900,
@@ -223,7 +223,7 @@ function getAllMeals() {
 }
 
 function addMeal() {
-  let mealDate = new Date(document.getElementById("newMealDate").value);
+  let mealDate = new Date(document.getElementById("newMealDate").value).toISOString().split('T')[0];
   let mealName = document.getElementById("newMealName").value;
   let mealType = document.getElementById("newMealType").value;
   let mealCalories = parseInt(document.getElementById("newMealCalories").value);
@@ -292,7 +292,7 @@ function updateMeal() {
 
   let mealDate = new Date(
     document.getElementById("editMealDate").value + "T00:00"
-  ).toLocaleDateString();
+  ).toISOString().split('T')[0];
 
   let newMeal = {
     id: mealId,
