@@ -4,189 +4,189 @@ var meals = [
     date: "2023/01/01",
     name: "Eggs and toast",
     type: "Breakfast",
-    calories: "500",
-    protein: "40",
-    fiber: "10",
+    calories: 500,
+    protein: 40,
+    fiber: 10,
   },
   {
     id: null,
     date: "2023/01/01",
     name: "Soup and sandwich",
     type: "Lunch",
-    calories: "600",
-    protein: "40",
-    fiber: "10",
+    calories: 600,
+    protein: 40,
+    fiber: 10,
   },
   {
     id: null,
     date: "2023/01/01",
     name: "Chicken and sald",
-    type: "Diner",
-    calories: "900",
-    protein: "40",
-    fiber: "10",
+    type: "Dinner",
+    calories: 900,
+    protein: 40,
+    fiber: 10,
   },
   {
     id: null,
     date: "2023/01/02",
     name: "Pancakes and bacon",
     type: "Breakfast",
-    calories: "500",
-    protein: "40",
-    fiber: "10",
+    calories: 500,
+    protein: 40,
+    fiber: 10,
   },
   {
     id: null,
     date: "2023/01/02",
     name: "burrito",
     type: "Lunch",
-    calories: "600",
-    protein: "40",
-    fiber: "10",
+    calories: 600,
+    protein: 40,
+    fiber: 10,
   },
   {
     id: null,
     date: "2023/01/02",
     name: "Steak and potatoes",
-    type: "Diner",
-    calories: "900",
-    protein: "40",
-    fiber: "10",
+    type: "Dinner",
+    calories: 900,
+    protein: 40,
+    fiber: 10,
   },
   {
     id: null,
     date: "2023/01/03",
     name: "Bacon McMuffin",
     type: "Breakfast",
-    calories: "500",
-    protein: "40",
-    fiber: "10",
+    calories: 500,
+    protein: 40,
+    fiber: 10,
   },
   {
     id: null,
     date: "2023/01/03",
     name: "Donair",
     type: "Lunch",
-    calories: "600",
-    protein: "40",
-    fiber: "10",
+    calories: 600,
+    protein: 40,
+    fiber: 10,
   },
   {
     id: null,
     date: "2023/01/03",
     name: "Rice and chicken",
-    type: "Diner",
-    calories: "900",
-    protein: "40",
-    fiber: "10",
+    type: "Dinner",
+    calories: 900,
+    protein: 40,
+    fiber: 10,
   },
   {
     id: null,
     date: "2023/01/04",
     name: "French toast",
     type: "Breakfast",
-    calories: "500",
-    protein: "40",
-    fiber: "10",
+    calories: 500,
+    protein: 40,
+    fiber: 10,
   },
   {
     id: null,
     date: "2023/01/04",
     name: "BLT",
     type: "Lunch",
-    calories: "600",
-    protein: "40",
-    fiber: "10",
+    calories: 600,
+    protein: 40,
+    fiber: 10,
   },
   {
     id: null,
     date: "2023/01/04",
     name: "Lamb curry",
-    type: "Diner",
-    calories: "900",
-    protein: "40",
-    fiber: "10",
+    type: "Dinner",
+    calories: 900,
+    protein: 40,
+    fiber: 10,
   },
   {
     id: null,
     date: "2023/01/05",
     name: "Eggs and toast",
     type: "Breakfast",
-    calories: "500",
-    protein: "40",
-    fiber: "10",
+    calories: 500,
+    protein: 40,
+    fiber: 10,
   },
   {
     id: null,
     date: "2023/01/05",
     name: "Soup and sandwich",
     type: "Lunch",
-    calories: "600",
-    protein: "40",
-    fiber: "10",
+    calories: 600,
+    protein: 40,
+    fiber: 10,
   },
   {
     id: null,
     date: "2023/01/05",
     name: "Chicken and sald",
-    type: "Diner",
-    calories: "900",
-    protein: "40",
-    fiber: "10",
+    type: "Dinner",
+    calories: 900,
+    protein: 40,
+    fiber: 10,
   },
   {
     id: null,
     date: "2023/01/06",
     name: "Pancakes and bacon",
     type: "Breakfast",
-    calories: "500",
-    protein: "40",
-    fiber: "10",
+    calories: 500,
+    protein: 40,
+    fiber: 10,
   },
   {
     id: null,
     date: "2023/01/06",
     name: "burrito",
     type: "Lunch",
-    calories: "600",
-    protein: "40",
-    fiber: "10",
+    calories: 600,
+    protein: 40,
+    fiber: 10,
   },
   {
     id: null,
     date: "2023/01/06",
     name: "Steak and potatoes",
-    type: "Diner",
-    calories: "900",
-    protein: "40",
-    fiber: "10",
+    type: "Dinner",
+    calories: 900,
+    protein: 40,
+    fiber: 10,
   },
   {
     id: null,
     date: "2023/01/07",
     name: "Bacon McMuffin",
     type: "Breakfast",
-    calories: "500",
-    protein: "40",
-    fiber: "10",
+    calories: 500,
+    protein: 40,
+    fiber: 10,
   },
   {
     id: null,
     date: "2023/01/07",
     name: "Donair",
     type: "Lunch",
-    calories: "600",
-    protein: "40",
-    fiber: "10",
+    calories: 600,
+    protein: 40,
+    fiber: 10,
   },
   {
     id: null,
     date: "2023/01/07",
     name: "Rice and chicken",
-    type: "Diner",
-    calories: "900",
-    protein: "40",
-    fiber: "10",
+    type: "Dinner",
+    calories: 900,
+    protein: 40,
+    fiber: 10,
   },
 ];
 
@@ -196,8 +196,6 @@ const tooltipTriggerList = document.querySelectorAll(
 const tooltipList = [...tooltipTriggerList].map(
   (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
 );
-
-function buildTotalMealTable() {}
 
 function getAllMeals() {
   let data = localStorage.getItem("jgMealZealMeals");
@@ -224,9 +222,97 @@ function getAllMeals() {
   return allMeals;
 }
 
-function deleteMeal() {}
+function addMeal() {
+  let mealDate = new Date(document.getElementById("newMealDate").value);
+  let mealName = document.getElementById("newMealName").value;
+  let mealType = document.getElementById("newMealType").value;
+  let mealCalories = parseInt(document.getElementById("newMealCalories").value);
+  let mealProtein = parseInt(document.getElementById("newMealProtein").value);
+  let mealFiber = parseInt(document.getElementById("newMealFiber").value);
 
-function editMeals() {}
+  let newMeal = {
+    id: generateId(),
+    date: mealDate,
+    name: mealName,
+    type: mealType,
+    calories: mealCalories,
+    protein: mealProtein,
+    fiber: mealFiber,
+  };
+
+  let allMeals = getAllMeals();
+  allMeals.push(newMeal);
+  localStorage.setItem("jgMealZealMeals", JSON.stringify(allMeals));
+
+  displayMeals();
+  document.getElementById("newMealForm").reset();
+}
+
+function deleteMeal() {
+  let mealId = document.getElementById("editMealId").value;
+
+  let allMeals = getAllMeals();
+
+  let filteredMeals = allMeals.filter((meal) => meal.id != mealId);
+
+  localStorage.setItem("jgMealZealMeals", JSON.stringify(filteredMeals));
+
+  displayMeals();
+}
+
+function editMeal(mealRow) {
+  let mealId = mealRow.getAttribute("data-identifier");
+
+  let allMeals = getAllMeals();
+
+  let mealToEdit = allMeals.find((mealObject) => mealObject.id == mealId);
+
+  document.getElementById("editMealId").value = mealToEdit.id;
+  document.getElementById("editMealName").value = mealToEdit.name;
+  document.getElementById("editMealType").value = mealToEdit.type;
+  document.getElementById("editMealCalories").value = mealToEdit.calories;
+  document.getElementById("editMealProtein").value = mealToEdit.protein;
+  document.getElementById("editMealFiber").value = mealToEdit.fiber;
+
+  let mealDate = new Date(mealToEdit.date);
+  let mealDateString = mealDate.toISOString();
+  let formattedDate = mealDateString.split("T")[0];
+  document.getElementById("editMealDate").value = formattedDate;
+}
+
+function updateMeal() {
+  let mealId = document.getElementById("editMealId").value;
+  let mealName = document.getElementById("editMealName").value;
+  let mealType = document.getElementById("editMealType").value;
+  let mealCalories = parseInt(
+    document.getElementById("editMealCalories").value
+  );
+  let mealProtein = parseInt(document.getElementById("editMealProtein").value);
+  let mealFiber = parseInt(document.getElementById("editMealFiber").value);
+
+  let mealDate = new Date(
+    document.getElementById("editMealDate").value + "T00:00"
+  ).toLocaleDateString();
+
+  let newMeal = {
+    id: mealId,
+    date: mealDate,
+    name: mealName,
+    type: mealType,
+    calories: mealCalories,
+    protein: mealProtein,
+    fiber: mealFiber,
+  };
+
+  let allMeals = getAllMeals();
+
+  let index = allMeals.findIndex((meal) => meal.id == mealId);
+
+  allMeals[index] = newMeal;
+
+  localStorage.setItem("jgMealZealMeals", JSON.stringify(allMeals));
+  displayMeals();
+}
 
 function displayMeals() {
   const mealTable = document.getElementById("mealTable");

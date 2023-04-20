@@ -46,6 +46,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
     <!-- TODO: change this from CF default favicon, replacement file name MUST be favicon.ico -->
   </head>
+
   <!-- Change all text with placeholder APP NAME -->
   <body onload="displayMeals()">
     <!-- Header Banner -->
@@ -224,8 +225,22 @@
           <div class="col-12 d-flex flex-row">
             <h1 class="titleText">Welcome back!</h1>
             <div class="ms-auto">
-              <button class="btn btn-primary">Add Meal</button>
-              <button class="btn btn-primary">Edit/Delete Meal</button>
+              <button
+                class="btn btn-primary"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#addDataModal"
+              >
+                Add Meal
+              </button>
+              <button
+                class="btn btn-primary"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#editDataModal"
+              >
+                Edit/Delete Meal
+              </button>
             </div>
           </div>
           <!-- Time Span Title-->
@@ -375,7 +390,12 @@
     <!-- TEMPLATES -->
     <!-- Default -->
     <template id="dailyTableRowTemplate">
-      <tr>
+      <tr
+        data-bs-toggle="modal"
+        data-bs-target="#editDataModal"
+        role="button"
+        onclick="editMeal(this)"
+      >
         <td data-id="date"></td>
         <td data-id="mealName"></td>
         <td data-id="mealType"></td>
@@ -450,6 +470,217 @@
         <td data-id="fiber"></td>
       </tr>
     </template>
+
+    <!-- Add Meal Modal -->
+    <div
+      class="modal fade"
+      id="addDataModal"
+      tabindex="-1"
+      data-bs-theme="dark"
+      data-bs-backdrop="static"
+      aria-labelledby="addDataModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="addDataModalLabel">
+              Add a New Meal
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="newMealForm">
+              <div class="row gy-2">
+                <div class="col-12">
+                  <label class="form-label">Date</label>
+                  <input class="form-control" type="date" id="newMealDate" />
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Meal Name</label>
+                  <input
+                    class="form-control"
+                    id="newMealName"
+                    placeholder="Meal name"
+                    type="text"
+                  />
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Meal Type</label>
+                  <select class="form-control" id="newMealType">
+                    <option selected="true" disabled="disabled">
+                      Choose an option
+                    </option>
+                    <option value="Breakfast">Breakfast</option>
+                    <option value="Lunch">Lunch</option>
+                    <option value="Dinner">Dinner</option>
+                    <option value="Snack">Snack</option>
+                  </select>
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Calories</label>
+                  <input
+                    type="number"
+                    placeholder="0"
+                    class="form-control"
+                    id="newMealCalories"
+                  />
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Protein</label>
+                  <input
+                    type="number"
+                    placeholder="0"
+                    class="form-control"
+                    id="newMealProtein"
+                  />
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Fiber</label>
+                  <input
+                    type="number"
+                    placeholder="0"
+                    class="form-control"
+                    id="newMealFiber"
+                  />
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-bs-dismiss="modal"
+              onclick="addMeal()"
+            >
+              Save
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit/Delete From Row Modal -->
+    <div
+      class="modal fade"
+      id="editDataModal"
+      tabindex="-1"
+      data-bs-theme="dark"
+      data-bs-backdrop="static"
+      aria-labelledby="editDataModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="editDataModalLabel">Edit Meal</h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="editMealForm">
+              <input type="hidden" id="editMealId" />
+              <div class="row gy-2">
+                <div class="col-12">
+                  <label class="form-label">Date</label>
+                  <input class="form-control" type="date" id="editMealDate" />
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Meal Name</label>
+                  <input
+                    class="form-control"
+                    id="editMealName"
+                    placeholder="Meal name"
+                    type="text"
+                  />
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Meal Type</label>
+                  <select class="form-control" id="editMealType">
+                    <option selected="true" disabled="disabled">
+                      Choose an option
+                    </option>
+                    <option value="Breakfast">Breakfast</option>
+                    <option value="Lunch">Lunch</option>
+                    <option value="Dinner">Dinner</option>
+                    <option value="Snack">Snack</option>
+                  </select>
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Calories</label>
+                  <input
+                    type="number"
+                    placeholder="0"
+                    class="form-control"
+                    id="editMealCalories"
+                  />
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Protein</label>
+                  <input
+                    type="number"
+                    placeholder="0"
+                    class="form-control"
+                    id="editMealProtein"
+                  />
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Fiber</label>
+                  <input
+                    type="number"
+                    placeholder="0"
+                    class="form-control"
+                    id="editMealFiber"
+                  />
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              data-bs-dismiss="modal"
+              onclick="deleteMeal()"
+            >
+              Delete Meal
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-bs-dismiss="modal"
+              onclick="updateMeal()"
+            >
+              Save Changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Bootstrap JS -->
     <script
