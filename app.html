@@ -221,20 +221,20 @@
 
     <!-- Main Content -->
     <main class="container-fluid my-5">
-      <div class="row h-100">
+      <div class="row h-100 justify-content-end">
         <!-- Sidebar -->
-        <aside class="col-2 d-flex flex-column my-5 gap-5">
+        <!-- <aside class="col-2 d-flex flex-column gap-5 stickySidebar">
           <button class="btn btn-primary w-100">Daily</button>
           <button class="btn btn-primary w-100">Weekly</button>
           <button class="btn btn-primary w-100">Monthly</button>
           <button class="btn btn-primary w-100">Yearly</button>
-        </aside>
+        </aside> -->
         <!-- Content -->
         <div class="col-10">
           <!-- Title Section -->
           <div class="col-12 d-flex flex-row">
             <h1 class="titleText">Welcome back!</h1>
-            <div class="ms-auto">
+            <div class="d-flex flex-row ms-auto gap-2">
               <button
                 class="btn btn-primary"
                 type="button"
@@ -251,30 +251,78 @@
               >
                 Edit/Delete Meal
               </button>
+              <div data-bs-theme="dark">
+                <button
+                  class="btn btn-primary dropdown-toggle h-100"
+                  type="button"
+                  data-bs-theme="dark"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <span>Daily</span>
+                </button>
+                <ul class="dropdown-menu" id="timeFrameDropdown">
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="#"
+                      onclick="viewFilteredMeals('daily')"
+                      >Daily</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="#"
+                      onclick="viewFilteredMeals('weekly')"
+                      >Weekly</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="#"
+                      onclick="viewFilteredMeals('monthly')"
+                      >Monthly</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="#"
+                      onclick="viewFilteredMeals('yearly')"
+                      >Yearly</a
+                    >
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
           <!-- Time Span Title-->
           <div class="col-12 mb-2">
-            Tracking<span id="timeFrameText"> today</span>
+            Tracking: <span id="timeFrameText">Today</span>
           </div>
           <!-- Tracker Cards -->
           <div class="row mb-3">
             <div class="col-3">
-              <div class="card h-100">
-                <div class="row g-0">
+              <div class="card d-flex h-100">
+                <div class="row h-100 g-0">
                   <div
                     class="col-md-4 d-flex align-items-center justify-content-center"
                   >
                     <img
                       src="/img/fire.svg"
-                      class="img-fluid rounded-start"
+                      class="img-fluid rounded-start w-100"
                       alt="..."
+                      id="calorieImage"
                     />
                   </div>
-                  <div class="col-md-8">
-                    <div class="card-body">
+                  <div class="col-md-8 d-flex align-items-center">
+                    <div class="card-body align-items center">
                       <h5 class="card-title">Calories</h5>
-                      <p class="card-text">X kcal</p>
+                      <p class="card-text">
+                        <span id="calorieCount">X</span> kcal
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -282,20 +330,22 @@
             </div>
             <div class="col-3">
               <div class="card h-100">
-                <div class="row g-0">
+                <div class="row h-100 g-0">
                   <div
                     class="col-md-4 d-flex align-items-center justify-content-center"
                   >
                     <img
-                      src="/img/fire.svg"
+                      src="/img/meat-svgrepo-com.svg"
                       class="img-fluid rounded-start"
                       alt="..."
                     />
                   </div>
-                  <div class="col-md-8">
+                  <div class="col-md-8 d-flex align-items-center">
                     <div class="card-body">
                       <h5 class="card-title">Protein</h5>
-                      <p class="card-text">X grams</p>
+                      <p class="card-text">
+                        <span id="proteinCount">X</span> grams
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -303,41 +353,46 @@
             </div>
             <div class="col-3">
               <div class="card h-100">
-                <div class="row g-0">
+                <div class="row h-100 g-0">
                   <div
                     class="col-md-4 d-flex align-items-center justify-content-center"
                   >
                     <img
-                      src="/img/fire.svg"
+                      src="/img/wheat-svgrepo-com.svg"
                       class="img-fluid rounded-start"
                       alt="..."
                     />
                   </div>
-                  <div class="col-md-8">
+                  <div class="col-md-8 d-flex align-items-center">
                     <div class="card-body">
                       <h5 class="card-title">Fiber</h5>
-                      <p class="card-text">X grams</p>
+                      <p class="card-text">
+                        <span id="fiberCount">X</span> grams
+                      </p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <div class="col-3">
-              <div class="card h-100">
-                <div class="row g-0">
+              <div class="card d-flex h-100">
+                <div class="row h-100 g-0">
                   <div
                     class="col-md-4 d-flex align-items-center justify-content-center"
                   >
                     <img
-                      src="/img/fire.svg"
+                      src="/img/droplet-fill-svgrepo-com.svg"
                       class="img-fluid rounded-start"
                       alt="..."
+                      id="dropletImage"
                     />
                   </div>
-                  <div class="col-md-8">
+                  <div class="col-md-8 d-flex align-items-center">
                     <div class="card-body">
                       <h5 class="card-title">Water</h5>
-                      <p class="card-text">X liters</p>
+                      <p class="card-text">
+                        <span id="waterCount">X</span> liters
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -356,6 +411,8 @@
                     <th>Calories (kcal)</th>
                     <th>Protein (g)</th>
                     <th>Fiber (g)</th>
+                    <th>Weight (g)</th>
+                    <th>Water (L)</th>
                   </tr>
                 </thead>
                 <tbody id="mealTable"></tbody>
@@ -412,6 +469,8 @@
         <td data-id="calories"></td>
         <td data-id="protein"></td>
         <td data-id="fiber"></td>
+        <td data-id="weight"></td>
+        <td data-id="water"></td>
       </tr>
     </template>
 
@@ -434,6 +493,7 @@
         <td data-id="calories"></td>
         <td data-id="protein"></td>
         <td data-id="fiber"></td>
+        <td data-id="water"></td>
       </tr>
     </template>
 

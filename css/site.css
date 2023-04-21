@@ -194,3 +194,12 @@ footer {
 .appLogo {
   max-width: 400px;
 }
+
+.stickySidebar{
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  position: sticky;
+  max-height: 100vh;
+}
