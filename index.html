@@ -6,7 +6,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
     />
-    <title>APP NAME: A CODING CHALLENGE by Jamal Gibson</title>
+    <title>APP NAME: A Coding Challenge by Jamal Gibson</title>
 
     <!-- Boostrap CSS -->
     <link
@@ -52,7 +52,7 @@
     <header id="home">
       <!-- Mobile Navigation Bar -->
       <nav
-        class="navbar navbar-expand-lg shadow-lg d-sm-none"
+        class="navbar navbar-expand-lg fixed-top shadow-lg d-sm-none"
         data-bs-theme="dark"
         id="mainNav"
       >
@@ -61,11 +61,9 @@
             class="navbar-brand border-top border-bottom border-white"
             href="/index.html"
           >
-            <img src="/img/JG Logo White.svg" height="40" />
-            APP NAME
-            <!--  TODO: play around with height of image with the height attribute -->
+            <img src="/img/JG Logo White.svg" class="img-fluid brandImaging" />
+            <span id="appName"> APP NAME</span>
           </a>
-          <!-- TODO: customize mobile menu button, and complete navbar -->
           <button
             class="navbar-toggler"
             type="button"
@@ -99,7 +97,7 @@
               <li class="nav-item">
                 <a
                   class="nav-link"
-                  href="https://github.com/GI-Jamal/CrucibleChallengeTemplate"
+                  href="https://github.com/GI-Jamal/CrucibleToDontList/CrucibleTacoCat"
                   target="_blank"
                   >The Repo</a
                 >
@@ -122,7 +120,7 @@
 
       <!-- Desktop Navigation Bar -->
       <nav
-        class="navbar navbar-expand-lg d-none d-sm-block shadow-lg"
+        class="navbar navbar-expand-lg d-none fixed-top d-sm-block shadow-lg"
         data-bs-theme="dark"
         id="mainNav"
       >
@@ -131,11 +129,9 @@
             class="navbar-brand border-top border-bottom border-white d-flex align-items-center"
             href="/index.html"
           >
-            <img src="/img/JG Logo White.svg" height="40" />
-            APP NAME
-            <!--  TODO: play around with height of image with the height attribute -->
+            <img src="/img/JG Logo White.svg" class="img-fluid brandImaging" />
+            <span id="appName"> APP NAME</span>
           </a>
-          <!-- TODO: customize mobile menu button, and complete navbar -->
           <button
             class="navbar-toggler"
             type="button"
@@ -167,8 +163,12 @@
             <div class="offcanvas-body">
               <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                 <li class="nav-item">
-                  <a class="nav-link active"
-                  aria-current="page" href="/index.html">Home</a>
+                  <a
+                    class="nav-link active"
+                    aria-current="page"
+                    href="/index.html"
+                    >Home</a
+                  >
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="/app.html">The App</a>
@@ -179,7 +179,7 @@
                 <li class="nav-item">
                   <a
                     class="nav-link"
-                    href="https://github.com/GI-Jamal/CrucibleChallengeTemplate"
+                    href="https://github.com/GI-Jamal/CrucibleToDontList"
                     target="_blank"
                     >The Repo</a
                   >
@@ -203,7 +203,7 @@
     </header>
 
     <!-- Main Content -->
-    <main class="container-xxl my-5">
+    <main class="container-xxl mainMargins">
       <div class="row row-cols-1 row-cols-md-2 h-100 align-items-center">
         <div class="col text-center">
           <h1 class="display-5 fw-bold titleText">APP NAME</h1>
@@ -288,8 +288,10 @@
           class="footer-main py-3 row row-cols-1 row-cols-md-3 align-items-center text-center gy-3 gy-md-0"
         >
           <div class="col">
-            <img src="/img/Jamal Name Logo White.png" height="40" />
-            <!-- TODO: change image height and image -->
+            <img
+              src="/img/Jamal Name Logo White.png"
+              class="img-fluid brandImaging"
+            />
           </div>
           <div class="col text-md-end order-first order-md-last">
             <a
@@ -299,9 +301,6 @@
             ></a>
             <a href="https://github.com/GI-Jamal" target="_blank"
               ><i class="socialicons bi bi-github p-2"></i
-            ></a>
-            <a href="https://twitter.com/GI__Jamal" target="_blank"
-              ><i class="socialicons bi bi-twitter p-2"></i
             ></a>
           </div>
           <div class="col text-light order-md-first text-md-start">
