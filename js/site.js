@@ -261,10 +261,10 @@ function getAllMeals() {
     localStorage.setItem("jgMealZealMeals", JSON.stringify(allMeals));
   }
 
-  allMeals = allMeals.sort(
-    (meal1, meal2) =>
-      Number(new Date(meal1.date)) - Number(new Date(meal2.date))
-  );
+  // allMeals = allMeals.sort(
+  //   (meal1, meal2) =>
+  //     Number(new Date(meal1.date)) - Number(new Date(meal2.date))
+  // );
   return allMeals;
 }
 
@@ -411,21 +411,10 @@ function calculateCards(mealArray) {
     waterCount += mealArray[i].water;
   }
 
-  let cardValues = {
-    calories: calorieCount,
-    protein: proteinCount,
-    fiber: fiberCount,
-    water: waterCount,
-  };
-
-  return cardValues;
-}
-
-function setCards(cardValues) {
-  document.getElementById("calorieCount").value = cardValues.calories;
-  document.getElementById("proteinCount").value = proteinCount.protein;
-  document.getElementById("fiberCount").value = fiberCount.fiber;
-  document.getElementById("waterCount").value = waterCount.count;
+  document.getElementById("calorieCount").value = calorieCount;
+  document.getElementById("proteinCount").value = proteinCount;
+  document.getElementById("fiberCount").value = fiberCount;
+  document.getElementById("waterCount").value = waterCount;
 }
 
 function entryFunction() {
@@ -433,15 +422,24 @@ function entryFunction() {
 }
 
 function displayMeals2(meals, timeFrame) {
-  if (timeFrame == "daily") {
-    const mealTable = document.getElementById("dailyTableRowHeaders");
-    const template = document.getElementById("dailyTableRowTemplate");
-    mealTable.innerHTML = "";
-    let allMeals = getAllMeals();
-    for (let i = 0; i < allMeals.length; i++) {
-      let meal = allMeals[i];
+  const mealTable = document.getElementById("mealTable");
+  const mealTableHeader = document.getElementById("mealTableHeader");
+  mealTableHeader.innerHTML = "";
+  mealTable.innerHTML = "";
 
-      let tableRow = document.importNode(template.content, true);
+  if (timeFrame == "daily") {
+    document.getElementById("addDataButton").classList.remove("d-none");
+    document.getElementById("editDataButton").classList.remove("d-none");
+    let rowTemplate = document.getElementById("dailyTableRowTemplate");
+    let headerTemplate = document.getElementById("dailyTableHeaderTemplate");
+    mealTableHeader.appendChild(
+      document.importNode(headerTemplate.content, true)
+    );
+
+    for (let i = 0; i < meals.length; i++) {
+      let meal = meals[i];
+
+      let tableRow = document.importNode(rowTemplate.content, true);
 
       tableRow.querySelector('[data-id="date"]').textContent = meal.date;
       tableRow.querySelector('[data-id="mealName"]').textContent = meal.name;
@@ -457,8 +455,45 @@ function displayMeals2(meals, timeFrame) {
 
       mealTable.appendChild(tableRow);
     }
-  } else if (timeFrame == "weekly") {
-  } else if (timeFrame == "monthly") {
-  } else if (timeFrame == "yearly") {
+  } else {
+    document.getElementById("addDataButton").classList.add("d-none")
+    document.getElementById("editDataButton").classList.add("d-none");
+    document.getElementById('timeFrameHeader').textContent = timeFrame
+    let rowTemplate = document.getElementById("filteredTableRowTemplate");
+    let headerTemplate = document.getElementById("filteredTableHeaderTemplate");
+    mealTableHeader.appendChild(
+      document.importNode(headerTemplate.content, true)
+    );
+
+    for (let i = 0; i < meals.length; i++) {
+      let meal = meals[i];
+
+      let tableRow = document.importNode(rowTemplate.content, true);
+
+      tableRow.querySelector('[data-id="timeFrame"]').textContent = meal.date;
+      tableRow.querySelector('[data-id="calories"]').textContent =
+        meal.calories;
+      tableRow.querySelector('[data-id="protein"]').textContent = meal.protein;
+      tableRow.querySelector('[data-id="fiber"]').textContent = meal.fiber;
+      tableRow.querySelector('[data-id="water"]').textContent = meal.water;
+      mealTable.appendChild(tableRow);
+    }
+  }
+}
+
+function filterMeals(timeFrame) {
+  let allMeals = getAllMeals()
+
+  if (timeFrame == "weekly")
+  {
+
+  }
+  else if (timeFrame == "monthly")
+  {
+
+  }
+  else if (timeFrame == "yearly")
+  {
+    
   }
 }

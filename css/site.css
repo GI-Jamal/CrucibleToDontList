@@ -79,7 +79,7 @@
 
   /* Text styles */
   --jg-title-color: var(--jg-title-test-color);
-  --jg-font-size: 1.2rem;
+  --jg-font-size: 1.1rem;
   --jg-font-weight: 400;
   --jg-line-height: 1.5rem;
 }
@@ -182,7 +182,6 @@ footer {
   padding-right: 0.5rem;
 }
 
-
 .devIcons img {
   max-width: 10%;
 }
@@ -193,6 +192,58 @@ footer {
 
 .appLogo {
   max-width: 400px;
+}
+
+.customGap {
+  gap: 0.5rem;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.mainMargins {
+  margin-top: 5.5rem;
+  margin-bottom: 3rem;
+}
+
+.brandImaging {
+  max-height: 40px !important;
+}
+
+/* Media Queries*/
+
+@media (max-width: 240px) {
+  #appName {
+    display: none;
+  }
+}
+
+@media (max-width: 250px) {
+  .fullWidth {
+    flex: 0, 0, auto;
+    width: 100% !important;
+    justify-content: center !important;
+    text-align: center;
+  }
+}
+
+@media (min-width: 576px) {
+  .customGap {
+    gap: 0.3rem;
+    padding-left: 0;
+    padding-right: calc(var(--bs-gutter-x) * 0.6);
+  }
+}
+
+@media (max-width: 767px) {
+  #calculateButton {
+    width: 100% !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .form-label {
+    margin-bottom: 0;
+  }
 }
 
 .stickySidebar{
