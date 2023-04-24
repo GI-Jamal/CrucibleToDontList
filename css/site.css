@@ -238,6 +238,10 @@ footer {
   #calculateButton {
     width: 100% !important;
   }
+
+  .appLogo {
+    margin-bottom: 1rem;
+  }
 }
 
 @media (min-width: 768px) {
@@ -246,7 +250,13 @@ footer {
   }
 }
 
-.stickySidebar{
+@media (max-width: 451px) {
+  .appLogo {
+    max-width: 200px;
+  }
+}
+
+.stickySidebar {
   top: 0;
   right: 0;
   bottom: 0;
