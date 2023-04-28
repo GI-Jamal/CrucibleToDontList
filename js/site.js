@@ -1,4 +1,22 @@
-var meals = [
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+const mealTableBody = document.getElementById("mealTable");
+const mealTableHeader = document.getElementById("mealTableHeader");
+
+const staticMeals = [
   {
     id: null,
     date: "2023-01-01",
@@ -230,6 +248,17 @@ var meals = [
     weight: 500,
     water: 0.5,
   },
+  {
+    id: null,
+    date: "2023-02-07",
+    name: "Rice and chicken",
+    type: "Dinner",
+    calories: 900,
+    protein: 40,
+    fiber: 10,
+    weight: 500,
+    water: 0.5,
+  },
 ];
 
 const tooltipTriggerList = document.querySelectorAll(
@@ -239,11 +268,24 @@ const tooltipList = [...tooltipTriggerList].map(
   (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
 );
 
+function getValues() {
+  let data = localStorage.getItem("jgMealZealMeals");
+  if (data == null)
+  {
+    document.getElementById('titleText').innerText = 'Welcome!'
+  }
+  else{
+    document.getElementById("titleText").innerText = "Welcome Back!";
+  }
+  displayAllMeals();
+  calculateAndSetDailyCards();
+}
+
 function getAllMeals() {
   let data = localStorage.getItem("jgMealZealMeals");
 
   if (data == null) {
-    let exampleMeals = meals.map((meal) => {
+    let exampleMeals = staticMeals.map((meal) => {
       meal.id = generateId();
       return meal;
     });
@@ -261,10 +303,9 @@ function getAllMeals() {
     localStorage.setItem("jgMealZealMeals", JSON.stringify(allMeals));
   }
 
-  // allMeals = allMeals.sort(
-  //   (meal1, meal2) =>
-  //     Number(new Date(meal1.date)) - Number(new Date(meal2.date))
-  // );
+  allMeals = allMeals.sort((meal1, meal2) =>
+    Number(Number(new Date(meal2.date) - new Date(meal1.date)))
+  );
   return allMeals;
 }
 
@@ -277,6 +318,7 @@ function addMeal() {
   let mealCalories = parseInt(document.getElementById("newMealCalories").value);
   let mealProtein = parseInt(document.getElementById("newMealProtein").value);
   let mealFiber = parseInt(document.getElementById("newMealFiber").value);
+  let mealWater = parseInt(document.getElementById("newMealWater").value);
 
   let newMeal = {
     id: generateId(),
@@ -286,13 +328,14 @@ function addMeal() {
     calories: mealCalories,
     protein: mealProtein,
     fiber: mealFiber,
+    water: mealWater,
   };
 
   let allMeals = getAllMeals();
   allMeals.push(newMeal);
   localStorage.setItem("jgMealZealMeals", JSON.stringify(allMeals));
 
-  displayMeals();
+  displayAllMeals();
   document.getElementById("newMealForm").reset();
 }
 
@@ -305,7 +348,7 @@ function deleteMeal() {
 
   localStorage.setItem("jgMealZealMeals", JSON.stringify(filteredMeals));
 
-  displayMeals();
+  displayAllMeals();
 }
 
 function editMeal(mealRow) {
@@ -321,6 +364,7 @@ function editMeal(mealRow) {
   document.getElementById("editMealCalories").value = mealToEdit.calories;
   document.getElementById("editMealProtein").value = mealToEdit.protein;
   document.getElementById("editMealFiber").value = mealToEdit.fiber;
+  document.getElementById("editMealWater").value = mealToEdit.water;
 
   let mealDate = new Date(mealToEdit.date);
   let mealDateString = mealDate.toISOString();
@@ -337,6 +381,7 @@ function updateMeal() {
   );
   let mealProtein = parseInt(document.getElementById("editMealProtein").value);
   let mealFiber = parseInt(document.getElementById("editMealFiber").value);
+  let mealWater = parseInt(document.getElementById("editMealWater").value);
 
   let mealDate = new Date(
     document.getElementById("editMealDate").value + "T00:00"
@@ -352,6 +397,7 @@ function updateMeal() {
     calories: mealCalories,
     protein: mealProtein,
     fiber: mealFiber,
+    water: mealWater,
   };
 
   let allMeals = getAllMeals();
@@ -361,18 +407,178 @@ function updateMeal() {
   allMeals[index] = newMeal;
 
   localStorage.setItem("jgMealZealMeals", JSON.stringify(allMeals));
-  displayMeals();
+  displayAllMeals();
+
+  document.getElementById("editMealForm").reset();
 }
 
-function displayMeals() {
-  const mealTable = document.getElementById("mealTable");
-  const template = document.getElementById("dailyTableRowTemplate");
-  mealTable.innerHTML = "";
-  let allMeals = getAllMeals();
-  for (let i = 0; i < allMeals.length; i++) {
-    let meal = allMeals[i];
+function createMonthlyMealsObjectArray() {
+  let mealsArray = createDailyMealsObjectArray();
 
-    let tableRow = document.importNode(template.content, true);
+  let mealRows = [];
+  let mealMonths = new Set();
+
+  for (let i = 0; i < mealsArray.length; i++) {
+    let mealMonthArray = mealsArray[i].date.split("-");
+    let mealMonth = mealMonthArray[0] + "-" + mealMonthArray[1];
+    mealMonths.add(mealMonth);
+  }
+
+  let mealMonthsArray = [...mealMonths];
+
+  for (let i = 0; i < mealMonthsArray.length; i++) {
+    let count = 0;
+    mealMonthData = {
+      date: mealMonthsArray[i],
+      calories: 0,
+      protein: 0,
+      fiber: 0,
+      water: 0,
+    };
+
+    for (let j = 0; j < mealsArray.length; j++) {
+      let mealDate = new Date(mealsArray[j].date + "T00:00")
+        .toISOString()
+        .split("T")[0];
+      let month = mealDate.split("-")[0] + "-" + mealDate.split("-")[1];
+
+      if (mealMonthsArray[i] == month) {
+        mealMonthData.calories += mealsArray[j].calories;
+        mealMonthData.protein += mealsArray[j].protein;
+        mealMonthData.fiber += mealsArray[j].fiber;
+        mealMonthData.water += mealsArray[j].water;
+        count++;
+      }
+    }
+    mealMonthData.calories = mealMonthData.calories / count;
+    mealMonthData.protein = mealMonthData.protein / count;
+    mealMonthData.fiber = mealMonthData.fiber / count;
+    mealMonthData.water = mealMonthData.water / count;
+
+    mealRows.push(mealMonthData);
+  }
+  return mealRows;
+}
+
+function createDailyMealsObjectArray() {
+  let days = new Set();
+  let mealsArray = getAllMeals();
+  for (let i = 0; i < mealsArray.length; i++) {
+    days.add(mealsArray[i].date);
+  }
+
+  let dayArray = [...days];
+  let mealRows = [];
+
+  for (let i = 0; i < dayArray.length; i++) {
+    let mealDay = {
+      date: dayArray[i],
+      calories: 0,
+      protein: 0,
+      fiber: 0,
+      water: 0,
+    };
+    for (let j = 0; j < mealsArray.length; j++) {
+      if (mealDay.date == mealsArray[j].date) {
+        mealDay.calories += mealsArray[j].calories;
+        mealDay.protein += mealsArray[j].protein;
+        mealDay.fiber += mealsArray[j].fiber;
+        mealDay.water += mealsArray[j].water;
+      }
+    }
+    mealRows.push(mealDay);
+  }
+
+  return mealRows;
+}
+
+function displayDailyMeals() {
+  let mealsArray = createDailyMealsObjectArray();
+  // reset meal table
+  mealTableHeader.innerHTML = "";
+  mealTableBody.innerHTML = "";
+
+  // assign appropriate table templates to variables
+  let headerTemplate = document.getElementById("dailyTableHeaderTemplate");
+  let rowTemplate = document.getElementById("dailyTableRowTemplate");
+
+  // append table header template to meal table header
+  mealTableHeader.appendChild(
+    document.importNode(headerTemplate.content, true)
+  );
+
+  // iterate through meals array argument
+  for (let i = 0; i < mealsArray.length; i++) {
+    // deep copy appropriate row template and assign to a variable
+    let tableRow = document.importNode(rowTemplate.content, true);
+
+    // input appropriate data to each table row cell
+    tableRow.querySelector('[data-id="date"]').textContent = mealsArray[i].date;
+    tableRow.querySelector('[data-id="calories"]').textContent =
+      mealsArray[i].calories;
+    tableRow.querySelector('[data-id="protein"]').textContent =
+      mealsArray[i].protein;
+    tableRow.querySelector('[data-id="fiber"]').textContent =
+      mealsArray[i].fiber;
+    tableRow.querySelector('[data-id="water"]').textContent =
+      mealsArray[i].water;
+
+    // append create table row to meal table body
+    mealTableBody.appendChild(tableRow);
+  }
+  document.getElementById("tableTrackingText").innerText = "Daily Totals";
+}
+
+function displayMonthlyMeals() {
+  let mealsArray = createMonthlyMealsObjectArray();
+  // reset meal table
+  mealTableHeader.innerHTML = "";
+  mealTableBody.innerHTML = "";
+
+  // assign appropriate table templates to variables
+  let headerTemplate = document.getElementById("filteredTableHeaderTemplate");
+  let rowTemplate = document.getElementById("filteredTableRowTemplate");
+
+  // append table header template to meal table header
+  mealTableHeader.appendChild(
+    document.importNode(headerTemplate.content, true)
+  );
+
+  // iterate through meals array argument
+  for (let i = 0; i < mealsArray.length; i++) {
+    // deep copy appropriate row template and assign to a variable
+    let tableRow = document.importNode(rowTemplate.content, true);
+
+    // input appropriate data to each table row cell
+    tableRow.querySelector('[data-id="date"]').textContent = mealsArray[i].date;
+    tableRow.querySelector('[data-id="calories"]').textContent =
+      mealsArray[i].calories;
+    tableRow.querySelector('[data-id="protein"]').textContent =
+      mealsArray[i].protein;
+    tableRow.querySelector('[data-id="fiber"]').textContent =
+      mealsArray[i].fiber;
+    tableRow.querySelector('[data-id="water"]').textContent =
+      mealsArray[i].water;
+
+    // append create table row to meal table body
+    mealTableBody.appendChild(tableRow);
+  }
+  document.getElementById("tableTrackingText").innerText = "Monthly Averages";
+}
+
+function displayAllMeals() {
+  let mealsArray = getAllMeals();
+  let rowTemplate = document.getElementById("allTableRowTemplate");
+  let headerTemplate = document.getElementById("allTableHeaderTemplate");
+  mealTableHeader.innerHTML = "";
+  mealTableHeader.appendChild(
+    document.importNode(headerTemplate.content, true)
+  );
+  mealTableBody.innerHTML = "";
+  for (let i = 0; i < mealsArray.length; i++) {
+    let meal = mealsArray[i];
+
+    let tableRow = document.importNode(rowTemplate.content, true);
 
     tableRow.querySelector('[data-id="date"]').textContent = meal.date;
     tableRow.querySelector('[data-id="mealName"]').textContent = meal.name;
@@ -380,13 +586,13 @@ function displayMeals() {
     tableRow.querySelector('[data-id="calories"]').textContent = meal.calories;
     tableRow.querySelector('[data-id="protein"]').textContent = meal.protein;
     tableRow.querySelector('[data-id="fiber"]').textContent = meal.fiber;
-    tableRow.querySelector('[data-id="weight"]').textContent = meal.weight;
     tableRow.querySelector('[data-id="water"]').textContent = meal.water;
 
     tableRow.querySelector("tr").setAttribute("data-identifier", meal.id);
 
-    mealTable.appendChild(tableRow);
+    mealTableBody.appendChild(tableRow);
   }
+  document.getElementById("tableTrackingText").innerText = "All Meals";
 }
 
 function generateId() {
@@ -398,102 +604,85 @@ function generateId() {
   );
 }
 
-function calculateCards(mealArray) {
+function calculateAndSetDailyCards() {
+  let dailyMeals = getAllMeals();
+
   let calorieCount = 0;
   let proteinCount = 0;
   let fiberCount = 0;
   let waterCount = 0;
 
-  for (let i = 0; i < mealArray.length; i++) {
-    calorieCount += mealArray[i].calories;
-    proteinCount += mealArray[i].protein;
-    fiberCount += mealArray[i].fiber;
-    waterCount += mealArray[i].water;
+  let today = new Date();
+
+  for (let i = 0; i < dailyMeals.length; i++) {
+    mealDate = new Date(dailyMeals[i].date + "T00:00");
+    if (mealDate.toDateString() == today.toDateString()) {
+      calorieCount += dailyMeals[i].calories;
+      proteinCount += dailyMeals[i].protein;
+      fiberCount += dailyMeals[i].fiber;
+      waterCount += dailyMeals[i].water;
+    }
   }
 
-  document.getElementById("calorieCount").value = calorieCount;
-  document.getElementById("proteinCount").value = proteinCount;
-  document.getElementById("fiberCount").value = fiberCount;
-  document.getElementById("waterCount").value = waterCount;
+  document.getElementById("calorieCount").textContent = calorieCount;
+  document.getElementById("proteinCount").textContent = proteinCount;
+  document.getElementById("fiberCount").textContent = fiberCount;
+  document.getElementById("waterCount").textContent = waterCount;
+
+  document.getElementById("cardTrackingText").innerText = "Total Today";
 }
 
-function entryFunction() {
-  let meals = getAllMeals();
-}
+function calculateAndSetMonthlyCards() {
+  let mealsArray = createMonthlyMealsObjectArray();
 
-function displayMeals2(meals, timeFrame) {
-  const mealTable = document.getElementById("mealTable");
-  const mealTableHeader = document.getElementById("mealTableHeader");
-  mealTableHeader.innerHTML = "";
-  mealTable.innerHTML = "";
+  let currentDate = new Date().toISOString().split("T")[0];
+  let currentMonth =
+    currentDate.split("-")[0] + "-" + currentDate.split("-")[1];
 
-  if (timeFrame == "daily") {
-    document.getElementById("addDataButton").classList.remove("d-none");
-    document.getElementById("editDataButton").classList.remove("d-none");
-    let rowTemplate = document.getElementById("dailyTableRowTemplate");
-    let headerTemplate = document.getElementById("dailyTableHeaderTemplate");
-    mealTableHeader.appendChild(
-      document.importNode(headerTemplate.content, true)
-    );
-
-    for (let i = 0; i < meals.length; i++) {
-      let meal = meals[i];
-
-      let tableRow = document.importNode(rowTemplate.content, true);
-
-      tableRow.querySelector('[data-id="date"]').textContent = meal.date;
-      tableRow.querySelector('[data-id="mealName"]').textContent = meal.name;
-      tableRow.querySelector('[data-id="mealType"]').textContent = meal.type;
-      tableRow.querySelector('[data-id="calories"]').textContent =
-        meal.calories;
-      tableRow.querySelector('[data-id="protein"]').textContent = meal.protein;
-      tableRow.querySelector('[data-id="fiber"]').textContent = meal.fiber;
-      tableRow.querySelector('[data-id="weight"]').textContent = meal.weight;
-      tableRow.querySelector('[data-id="water"]').textContent = meal.water;
-
-      tableRow.querySelector("tr").setAttribute("data-identifier", meal.id);
-
-      mealTable.appendChild(tableRow);
+  for (let i = 0; i < mealsArray.length; i++) {
+    if (mealsArray[i].date == currentMonth) {
+      document.getElementById("calorieCount").textContent =
+        mealsArray[i].calories;
+      document.getElementById("proteinCount").textContent =
+        mealsArray[i].protein;
+      document.getElementById("fiberCount").textContent = mealsArray[i].fiber;
+      document.getElementById("waterCount").textContent = mealsArray[i].water;
     }
+  }
+
+  document.getElementById("cardTrackingText").innerText = "Average this Month";
+}
+
+function filterMeals(filter) {
+  if (filter == "All") {
+    displayAllMeals();
+  }
+
+  if (filter == "Daily") {
+    displayDailyMeals();
+  }
+
+  if (filter == "Weekly") {
+    displayWeeklyMeals();
+  }
+
+  if (filter == "Monthly") {
+    displayMonthlyMeals();
+  }
+
+  if (filter == "Yearly") {
+    displayYearlyMeals();
+  }
+}
+
+function filterCards(filter) {
+  if (filter == "Today") {
+    calculateAndSetDailyCards();
+  } else if (filter == "Week") {
+    calculateAndSetWeeklyCards();
+  } else if (filter == "Month") {
+    calculateAndSetMonthlyCards();
   } else {
-    document.getElementById("addDataButton").classList.add("d-none")
-    document.getElementById("editDataButton").classList.add("d-none");
-    document.getElementById('timeFrameHeader').textContent = timeFrame
-    let rowTemplate = document.getElementById("filteredTableRowTemplate");
-    let headerTemplate = document.getElementById("filteredTableHeaderTemplate");
-    mealTableHeader.appendChild(
-      document.importNode(headerTemplate.content, true)
-    );
-
-    for (let i = 0; i < meals.length; i++) {
-      let meal = meals[i];
-
-      let tableRow = document.importNode(rowTemplate.content, true);
-
-      tableRow.querySelector('[data-id="timeFrame"]').textContent = meal.date;
-      tableRow.querySelector('[data-id="calories"]').textContent =
-        meal.calories;
-      tableRow.querySelector('[data-id="protein"]').textContent = meal.protein;
-      tableRow.querySelector('[data-id="fiber"]').textContent = meal.fiber;
-      tableRow.querySelector('[data-id="water"]').textContent = meal.water;
-      mealTable.appendChild(tableRow);
-    }
-  }
-}
-
-function filterMeals(timeFrame) {
-  let allMeals = getAllMeals()
-
-  if (timeFrame == "weekly")
-  {
-
-  }
-  else if (timeFrame == "monthly")
-  {
-
-  }
-  else if (timeFrame == "yearly")
-  {
-    
+    calculateAndSetYearlyCards();
   }
 }
