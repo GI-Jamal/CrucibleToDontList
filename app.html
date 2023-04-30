@@ -109,14 +109,6 @@
     <!-- Main Content -->
     <main class="container-xxl mainMargins align-items-center">
       <div class="row">
-        <!-- Sidebar -->
-        <!-- <aside class="col-2 d-flex flex-column gap-5 stickySidebar">
-          <button class="btn btn-primary w-100">Daily</button>
-          <button class="btn btn-primary w-100">Weekly</button>
-          <button class="btn btn-primary w-100">Monthly</button>
-          <button class="btn btn-primary w-100">Yearly</button>
-        </aside> -->
-
         <!-- Content -->
         <div class="col-12">
           <!-- Title Section -->
@@ -128,7 +120,7 @@
               ></h1>
             </div>
             <div
-              class="col-12 col-sm-6 d-flex flex-row justify-content-center justify-content-sm-end gap-2"
+              class="col-12 col-sm-6 d-flex flex-row justify-content-center justify-content-sm-end gap-2" id="btnCol"
             >
               <button
                 class="btn btn-primary"
@@ -241,33 +233,35 @@
           </div>
           <!-- Time Span Title-->
           <div class="row mt-2">
-            <div class="col-12 col-sm-6 mb-2 text-center text-sm-start">
-              Table Tracking:&nbsp;<span id="tableTrackingText"></span>
+            <div class="col-12 col-sm-6 mb-2 d-flex justify-content-between justify-content-sm-start">
+              Table Tracking:&nbsp;&nbsp;
+              <span id="tableTrackingText"></span>
             </div>
-            <div class="col-12 col-sm-6 mb-2 text-center text-sm-end">
-              Cards Tracking:&nbsp;<span id="cardTrackingText"></span>
+            <div class="col-12 col-sm-6 mb-2 d-flex justify-content-between justify-content-sm-end">
+              Cards Tracking:&nbsp;&nbsp;
+              <span id="cardTrackingText"></span>
             </div>
           </div>
           <!-- Tracker Cards -->
           <div class="row row-cols-2 row-cols-md-4 mb-3">
-            <div class="col-3">
-              <div class="card h-100 d-flex">
+            <div class="col-6 col-sm-3 pe-1 py-1">
+              <div class="card h-100 p-2 p-lg-4 calorieCard">
                 <div class="row h-100 g-0">
                   <div
-                    class="col-md-4 d-flex align-items-center justify-content-center"
+                    class="col-md-4 d-flex align-items-center justify-content-center pb-2"
                   >
                     <img
                       src="/img/fire.svg"
-                      class="img-fluid rounded-start w-100"
+                      class="img-fluid rounded-start w-100 cardImg"
                       alt="..."
                       id="calorieImage"
                     />
                   </div>
-                  <div class="col-md-8 d-flex align-items-center">
+                  <div class="col-md-8 d-flex align-items-center justify-content-center">
                     <div
-                      class="card-body align-items-center justify-content-start"
+                      class="card-body p-0 text-center"
                     >
-                      <h5 class="card-title">Calories</h5>
+                      <h6 class="card-title">Calories:</h6>
                       <p class="card-text">
                         <span id="calorieCount">X</span> kcal
                       </p>
@@ -276,70 +270,70 @@
                 </div>
               </div>
             </div>
-            <div class="col-3">
-              <div class="card h-100">
+            <div class="col-6 col-sm-3 ps-1 py-1 p-sm-1">
+              <div class="card h-100 p-2 p-lg-4 proteinCard">
                 <div class="row h-100 g-0">
                   <div
-                    class="col-md-4 d-flex align-items-center justify-content-center"
+                    class="col-md-4 d-flex align-items-center justify-content-center pb-1"
                   >
                     <img
                       src="/img/meat.svg"
-                      class="img-fluid rounded-start"
+                      class="img-fluid rounded-start cardImg"
                       alt="..."
                     />
                   </div>
-                  <div class="col-md-8 d-flex align-items-center">
-                    <div class="card-body">
-                      <h5 class="card-title">Protein</h5>
+                  <div class="col-md-8 d-flex align-items-center justify-content-center">
+                    <div class="card-body p-0 text-center">
+                      <h6 class="card-title">Protein:</h6>
                       <p class="card-text">
-                        <span id="proteinCount">X</span> grams
+                        <span id="proteinCount">X</span> g
                       </p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col-3">
-              <div class="card h-100">
+            <div class="col-6 col-sm-3 pe-1 py-1 p-sm-1">
+              <div class="card h-100 p-2 p-lg-4 fiberCard">
                 <div class="row h-100 g-0">
                   <div
-                    class="col-md-4 d-flex align-items-center justify-content-center"
+                    class="col-md-4 d-flex align-items-center justify-content-center pb-2"
                   >
                     <img
                       src="/img/wheat.svg"
-                      class="img-fluid rounded-start"
+                      class="img-fluid rounded-start cardImg"
                       alt="..."
                     />
                   </div>
-                  <div class="col-md-8 d-flex align-items-center">
-                    <div class="card-body">
-                      <h5 class="card-title">Fiber</h5>
+                  <div class="col-md-8 d-flex align-items-center justify-content-center">
+                    <div class="card-body p-0 text-center">
+                      <h6 class="card-title">Fiber:</h6>
                       <p class="card-text">
-                        <span id="fiberCount">X</span> grams
+                        <span id="fiberCount">X</span> g
                       </p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col-3">
-              <div class="card d-flex h-100">
+            <div class="col-6 col-sm-3 ps-1 py-1">
+              <div class="card h-100 p-2 p-lg-4 waterCard">
                 <div class="row h-100 g-0">
                   <div
-                    class="col-md-4 d-flex align-items-center justify-content-center"
+                    class="col-md-4 d-flex align-items-center justify-content-center pb-1"
                   >
                     <img
                       src="/img/droplet.svg"
-                      class="img-fluid rounded-start"
+                      class="img-fluid rounded-start cardImg"
                       alt="..."
                       id="dropletImage"
                     />
                   </div>
-                  <div class="col-md-8 d-flex align-items-center">
-                    <div class="card-body">
-                      <h5 class="card-title">Water</h5>
+                  <div class="col-md-8 d-flex align-items-center justify-content-center">
+                    <div class="card-body p-0 text-center">
+                      <h6 class="card-title">Water:</h6>
                       <p class="card-text">
-                        <span id="waterCount">X</span> liters
+                        <span id="waterCount">X</span> L
                       </p>
                     </div>
                   </div>
@@ -349,10 +343,9 @@
           </div>
           <!-- Meals Table -->
           <div class="col-12">
-            <div class="table-responsive">
-              <table class="table table-striped table-hover table-light">
+            <div class="table-responsive border border-2 rounded-3">
+              <table class="table table-striped table-hover mb-0 table-dark">
                 <thead class="table-dark" id="mealTableHeader">
-                  <tr></tr>
                 </thead>
                 <tbody id="mealTable"></tbody>
               </table>

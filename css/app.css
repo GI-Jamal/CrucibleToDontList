@@ -7,6 +7,73 @@
   max-height: 100vh;
 }
 
+.cardImg {
+  max-width: 30px;
+}
+
+.card-title {
+  margin-bottom: .1rem;
+  color: white;
+}
+
+.card-text {
+  color: white;
+}
+
+.calorieCard {
+  background-color: rgba(185, 32, 32, 0.585);
+  border-color: white;
+}
+
+.proteinCard {
+  background-color: rgba(200, 102, 9, 0.475);
+  border-color: white;
+}
+
+.fiberCard {
+  background-color: rgba(239, 176, 57, 0.87);
+  border-color: white;
+}
+
+.waterCard {
+ background-color: rgba(41, 144, 208, 0.779);
+ border-color: white;
+}
+
+
+@media (max-width: 310px) {
+  #btnCol {
+    flex-wrap: wrap;
+  }
+}
+
+@media (min-width: 300px) {
+  .cardImg {
+    max-width: 40px;
+  }
+}
+
+@media (min-width: 768px) {
+  .cardImg {
+    max-width: 50px;
+  }
+}
+
+@media (min-width: 992px) {
+  .card-title {
+    font-size: 1.3rem;
+  }
+
+  .card-text {
+    font-size: 1.3rem;
+  }
+
+  .cardImg {
+    max-width: 55px;
+  }
+}
+
+
 @media (min-width: 768px) {
   .form-label {
     margin-bottom: 0;
