@@ -234,11 +234,11 @@
           <!-- Time Span Title-->
           <div class="row mt-2">
             <div class="col-12 col-sm-6 mb-2 d-flex justify-content-between justify-content-sm-start">
-              Table Tracking:&nbsp;&nbsp;
+              Table Displaying:&nbsp;&nbsp;
               <span id="tableTrackingText"></span>
             </div>
             <div class="col-12 col-sm-6 mb-2 d-flex justify-content-between justify-content-sm-end">
-              Cards Tracking:&nbsp;&nbsp;
+              Cards Displaying:&nbsp;&nbsp;
               <span id="cardTrackingText"></span>
             </div>
           </div>
@@ -414,34 +414,14 @@
       </tr>
     </template>
 
-    <!-- Daily -->
-    <template id="dailyTableHeaderTemplate">
+    <!-- Filtered  -->
+    <template id="filteredTableHeaderTemplate">
       <tr>
-        <th>Date</th>
+        <th id="timeFrame"></th>
         <th>Calories (kcal)</th>
         <th>Protein (g)</th>
         <th>Fiber (g)</th>
         <th>Water (L)</th>
-      </tr>
-    </template>
-    <template id="dailyTableRowTemplate">
-      <tr data-bs-toggle="modal" data-bs-target="#editDataModal" role="button">
-        <td data-id="date"></td>
-        <td data-id="calories"></td>
-        <td data-id="protein"></td>
-        <td data-id="fiber"></td>
-        <td data-id="water"></td>
-      </tr>
-    </template>
-
-    <!-- Weekly/Monthly/Yearly  -->
-    <template id="filteredTableHeaderTemplate">
-      <tr>
-        <th>Time Frame</th>
-        <th>Calories</th>
-        <th>Protein</th>
-        <th>Fiber</th>
-        <th>Water</th>
       </tr>
     </template>
     <template id="filteredTableRowTemplate">

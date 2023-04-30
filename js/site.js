@@ -270,11 +270,9 @@ const tooltipList = [...tooltipTriggerList].map(
 
 function getValues() {
   let data = localStorage.getItem("jgMealZealMeals");
-  if (data == null)
-  {
-    document.getElementById('titleText').innerText = 'Welcome!'
-  }
-  else{
+  if (data == null) {
+    document.getElementById("titleText").innerText = "Welcome!";
+  } else {
     document.getElementById("titleText").innerText = "Welcome Back!";
   }
   displayAllMeals();
@@ -310,33 +308,63 @@ function getAllMeals() {
 }
 
 function addMeal() {
-  let mealDate = new Date(document.getElementById("newMealDate").value)
-    .toISOString()
-    .split("T")[0];
-  let mealName = document.getElementById("newMealName").value;
-  let mealType = document.getElementById("newMealType").value;
-  let mealCalories = parseInt(document.getElementById("newMealCalories").value);
-  let mealProtein = parseInt(document.getElementById("newMealProtein").value);
-  let mealFiber = parseInt(document.getElementById("newMealFiber").value);
-  let mealWater = parseInt(document.getElementById("newMealWater").value);
+  try {
+    let mealDate = new Date(document.getElementById("newMealDate").value)
+      .toISOString()
+      .split("T")[0];
+    let mealName = document.getElementById("newMealName").value;
+    let mealType = document.getElementById("newMealType").value;
+    let mealCalories = parseInt(
+      document.getElementById("newMealCalories").value
+    );
+    let mealProtein = parseInt(document.getElementById("newMealProtein").value);
+    let mealFiber = parseInt(document.getElementById("newMealFiber").value);
+    let mealWater = parseInt(document.getElementById("newMealWater").value);
 
-  let newMeal = {
-    id: generateId(),
-    date: mealDate,
-    name: mealName,
-    type: mealType,
-    calories: mealCalories,
-    protein: mealProtein,
-    fiber: mealFiber,
-    water: mealWater,
-  };
+    if (
+      mealCalories < 0 ||
+      isNaN(mealCalories) ||
+      mealProtein < 0 ||
+      isNaN(mealProtein) ||
+      mealFiber < 0 ||
+      isNaN(mealFiber) ||
+      mealWater < 0 ||
+      isNaN(mealWater) ||
+      !mealType
+    ) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops!",
+        text: "Please enter valid inputs.",
+        heightAuto: false,
+      });
+    } else {
+      let newMeal = {
+        id: generateId(),
+        date: mealDate,
+        name: mealName,
+        type: mealType,
+        calories: mealCalories,
+        protein: mealProtein,
+        fiber: mealFiber,
+        water: mealWater,
+      };
 
-  let allMeals = getAllMeals();
-  allMeals.push(newMeal);
-  localStorage.setItem("jgMealZealMeals", JSON.stringify(allMeals));
+      let allMeals = getAllMeals();
+      allMeals.push(newMeal);
+      localStorage.setItem("jgMealZealMeals", JSON.stringify(allMeals));
 
-  displayAllMeals();
-  document.getElementById("newMealForm").reset();
+      displayAllMeals();
+      document.getElementById("newMealForm").reset();
+    }
+  } catch (err) {
+    Swal.fire({
+      icon: "error",
+      title: "Oops!",
+      text: "Please enter valid inputs.",
+      heightAuto: false,
+    });
+  }
 }
 
 function deleteMeal() {
@@ -373,43 +401,105 @@ function editMeal(mealRow) {
 }
 
 function updateMeal() {
-  let mealId = document.getElementById("editMealId").value;
-  let mealName = document.getElementById("editMealName").value;
-  let mealType = document.getElementById("editMealType").value;
-  let mealCalories = parseInt(
-    document.getElementById("editMealCalories").value
-  );
-  let mealProtein = parseInt(document.getElementById("editMealProtein").value);
-  let mealFiber = parseInt(document.getElementById("editMealFiber").value);
-  let mealWater = parseInt(document.getElementById("editMealWater").value);
+  try {
+    let mealId = document.getElementById("editMealId").value;
+    let mealName = document.getElementById("editMealName").value;
+    let mealType = document.getElementById("editMealType").value;
+    let mealCalories = parseInt(
+      document.getElementById("editMealCalories").value
+    );
+    let mealProtein = parseInt(
+      document.getElementById("editMealProtein").value
+    );
+    let mealFiber = parseInt(document.getElementById("editMealFiber").value);
+    let mealWater = parseInt(document.getElementById("editMealWater").value);
 
-  let mealDate = new Date(
-    document.getElementById("editMealDate").value + "T00:00"
-  )
-    .toISOString()
-    .split("T")[0];
+    let mealDate = new Date(
+      document.getElementById("editMealDate").value + "T00:00"
+    )
+      .toISOString()
+      .split("T")[0];
 
-  let newMeal = {
-    id: mealId,
-    date: mealDate,
-    name: mealName,
-    type: mealType,
-    calories: mealCalories,
-    protein: mealProtein,
-    fiber: mealFiber,
-    water: mealWater,
-  };
+    if (
+      mealCalories < 0 ||
+      isNaN(mealCalories) ||
+      mealProtein < 0 ||
+      isNaN(mealProtein) ||
+      mealFiber < 0 ||
+      isNaN(mealFiber) ||
+      mealWater < 0 ||
+      isNaN(mealWater) ||
+      !mealType
+    ) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops!",
+        text: "Please enter valid inputs.",
+        heightAuto: false,
+      });
+    } else {
+      let newMeal = {
+        id: mealId,
+        date: mealDate,
+        name: mealName,
+        type: mealType,
+        calories: mealCalories,
+        protein: mealProtein,
+        fiber: mealFiber,
+        water: mealWater,
+      };
 
-  let allMeals = getAllMeals();
+      let allMeals = getAllMeals();
 
-  let index = allMeals.findIndex((meal) => meal.id == mealId);
+      let index = allMeals.findIndex((meal) => meal.id == mealId);
 
-  allMeals[index] = newMeal;
+      allMeals[index] = newMeal;
 
-  localStorage.setItem("jgMealZealMeals", JSON.stringify(allMeals));
-  displayAllMeals();
+      localStorage.setItem("jgMealZealMeals", JSON.stringify(allMeals));
+      displayAllMeals();
 
-  document.getElementById("editMealForm").reset();
+      document.getElementById("editMealForm").reset();
+    }
+  } catch (err) {
+    Swal.fire({
+      icon: "error",
+      title: "Oops!",
+      text: "Please enter valid inputs.",
+      heightAuto: false,
+    });
+  }
+}
+
+function createDailyMealsObjectArray() {
+  let days = new Set();
+  let mealsArray = getAllMeals();
+  for (let i = 0; i < mealsArray.length; i++) {
+    days.add(mealsArray[i].date);
+  }
+
+  let dayArray = [...days];
+  let mealRows = [];
+
+  for (let i = 0; i < dayArray.length; i++) {
+    let mealDay = {
+      date: dayArray[i],
+      calories: 0,
+      protein: 0,
+      fiber: 0,
+      water: 0,
+    };
+    for (let j = 0; j < mealsArray.length; j++) {
+      if (mealDay.date == mealsArray[j].date) {
+        mealDay.calories += mealsArray[j].calories;
+        mealDay.protein += mealsArray[j].protein;
+        mealDay.fiber += mealsArray[j].fiber;
+        mealDay.water += mealsArray[j].water;
+      }
+    }
+    mealRows.push(mealDay);
+  }
+
+  return mealRows;
 }
 
 function createMonthlyMealsObjectArray() {
@@ -450,46 +540,91 @@ function createMonthlyMealsObjectArray() {
         count++;
       }
     }
-    mealMonthData.calories = mealMonthData.calories / count;
-    mealMonthData.protein = mealMonthData.protein / count;
-    mealMonthData.fiber = mealMonthData.fiber / count;
-    mealMonthData.water = mealMonthData.water / count;
+    mealMonthData.calories = Math.round(mealMonthData.calories / count);
+    mealMonthData.protein = Math.round(mealMonthData.protein / count);
+    mealMonthData.fiber = Math.round(mealMonthData.fiber / count);
+    mealMonthData.water = Math.round(mealMonthData.water / count);
 
     mealRows.push(mealMonthData);
   }
   return mealRows;
 }
 
-function createDailyMealsObjectArray() {
-  let days = new Set();
-  let mealsArray = getAllMeals();
+function createYearlyMealsObjectArray() {
+  let mealsArray = createMonthlyMealsObjectArray();
+
+  let mealRows = [];
+  let mealYears = new Set();
+
   for (let i = 0; i < mealsArray.length; i++) {
-    days.add(mealsArray[i].date);
+    let mealYearArray = mealsArray[i].date.split("-");
+    let mealYear = mealYearArray[0];
+    mealYears.add(mealYear);
   }
 
-  let dayArray = [...days];
-  let mealRows = [];
+  let mealYearsArray = [...mealYears];
 
-  for (let i = 0; i < dayArray.length; i++) {
-    let mealDay = {
-      date: dayArray[i],
+  for (let i = 0; i < mealYearsArray.length; i++) {
+    let count = 0;
+    mealYearData = {
+      date: mealYearsArray[i],
       calories: 0,
       protein: 0,
       fiber: 0,
       water: 0,
     };
+
     for (let j = 0; j < mealsArray.length; j++) {
-      if (mealDay.date == mealsArray[j].date) {
-        mealDay.calories += mealsArray[j].calories;
-        mealDay.protein += mealsArray[j].protein;
-        mealDay.fiber += mealsArray[j].fiber;
-        mealDay.water += mealsArray[j].water;
+      let mealDate = new Date(mealsArray[j].date + "T00:00")
+        .toISOString()
+        .split("T")[0];
+      let year = mealDate.split("-")[0];
+
+      if (mealYearsArray[i] == year) {
+        mealYearData.calories += mealsArray[j].calories;
+        mealYearData.protein += mealsArray[j].protein;
+        mealYearData.fiber += mealsArray[j].fiber;
+        mealYearData.water += mealsArray[j].water;
+        count++;
       }
     }
-    mealRows.push(mealDay);
-  }
+    mealYearData.calories = Math.round(mealYearData.calories / count);
+    mealYearData.protein = Math.round(mealYearData.protein / count);
+    mealYearData.fiber = Math.round(mealYearData.fiber / count);
+    mealYearData.water = Math.round(mealYearData.water / count);
 
+    mealRows.push(mealYearData);
+  }
   return mealRows;
+}
+
+function displayAllMeals() {
+  let mealsArray = getAllMeals();
+  let rowTemplate = document.getElementById("allTableRowTemplate");
+  let headerTemplate = document.getElementById("allTableHeaderTemplate");
+  mealTableHeader.innerHTML = "";
+  mealTableHeader.appendChild(
+    document.importNode(headerTemplate.content, true)
+  );
+  mealTableBody.innerHTML = "";
+  for (let i = 0; i < mealsArray.length; i++) {
+    let meal = mealsArray[i];
+
+    let tableRow = document.importNode(rowTemplate.content, true);
+
+    tableRow.querySelector('[data-id="date"]').textContent = meal.date;
+    tableRow.querySelector('[data-id="mealName"]').textContent = meal.name;
+    tableRow.querySelector('[data-id="mealType"]').textContent = meal.type;
+    tableRow.querySelector('[data-id="calories"]').textContent = meal.calories;
+    tableRow.querySelector('[data-id="protein"]').textContent = meal.protein;
+    tableRow.querySelector('[data-id="fiber"]').textContent = meal.fiber;
+    tableRow.querySelector('[data-id="water"]').textContent = meal.water;
+
+    tableRow.querySelector("tr").setAttribute("data-identifier", meal.id);
+
+    mealTableBody.appendChild(tableRow);
+  }
+  document.getElementById("tableTrackingText").innerText = "All Meals";
 }
 
 function displayDailyMeals() {
@@ -499,13 +634,15 @@ function displayDailyMeals() {
   mealTableBody.innerHTML = "";
 
   // assign appropriate table templates to variables
-  let headerTemplate = document.getElementById("dailyTableHeaderTemplate");
-  let rowTemplate = document.getElementById("dailyTableRowTemplate");
+  let headerTemplate = document.getElementById("filteredTableHeaderTemplate");
+  let rowTemplate = document.getElementById("filteredTableRowTemplate");
 
   // append table header template to meal table header
   mealTableHeader.appendChild(
     document.importNode(headerTemplate.content, true)
   );
+
+  document.getElementById("timeFrame").innerHTML = "Date";
 
   // iterate through meals array argument
   for (let i = 0; i < mealsArray.length; i++) {
@@ -544,6 +681,8 @@ function displayMonthlyMeals() {
     document.importNode(headerTemplate.content, true)
   );
 
+  document.getElementById("timeFrame").innerHTML = "Month";
+
   // iterate through meals array argument
   for (let i = 0; i < mealsArray.length; i++) {
     // deep copy appropriate row template and assign to a variable
@@ -563,36 +702,48 @@ function displayMonthlyMeals() {
     // append create table row to meal table body
     mealTableBody.appendChild(tableRow);
   }
-  document.getElementById("tableTrackingText").innerText = "Monthly Averages";
+  document.getElementById("tableTrackingText").innerText =
+    "Daily Averages / Month";
 }
 
-function displayAllMeals() {
-  let mealsArray = getAllMeals();
-  let rowTemplate = document.getElementById("allTableRowTemplate");
-  let headerTemplate = document.getElementById("allTableHeaderTemplate");
+function displayYearlyMeals() {
+  let mealsArray = createYearlyMealsObjectArray();
+  // reset meal table
   mealTableHeader.innerHTML = "";
+  mealTableBody.innerHTML = "";
+
+  // assign appropriate table templates to variables
+  let headerTemplate = document.getElementById("filteredTableHeaderTemplate");
+  let rowTemplate = document.getElementById("filteredTableRowTemplate");
+
+  // append table header template to meal table header
   mealTableHeader.appendChild(
     document.importNode(headerTemplate.content, true)
   );
-  mealTableBody.innerHTML = "";
-  for (let i = 0; i < mealsArray.length; i++) {
-    let meal = mealsArray[i];
 
+  document.getElementById("timeFrame").innerHTML = "Year";
+
+  // iterate through meals array argument
+  for (let i = 0; i < mealsArray.length; i++) {
+    // deep copy appropriate row template and assign to a variable
     let tableRow = document.importNode(rowTemplate.content, true);
 
-    tableRow.querySelector('[data-id="date"]').textContent = meal.date;
-    tableRow.querySelector('[data-id="mealName"]').textContent = meal.name;
-    tableRow.querySelector('[data-id="mealType"]').textContent = meal.type;
-    tableRow.querySelector('[data-id="calories"]').textContent = meal.calories;
-    tableRow.querySelector('[data-id="protein"]').textContent = meal.protein;
-    tableRow.querySelector('[data-id="fiber"]').textContent = meal.fiber;
-    tableRow.querySelector('[data-id="water"]').textContent = meal.water;
+    // input appropriate data to each table row cell
+    tableRow.querySelector('[data-id="date"]').textContent = mealsArray[i].date;
+    tableRow.querySelector('[data-id="calories"]').textContent =
+      mealsArray[i].calories;
+    tableRow.querySelector('[data-id="protein"]').textContent =
+      mealsArray[i].protein;
+    tableRow.querySelector('[data-id="fiber"]').textContent =
+      mealsArray[i].fiber;
+    tableRow.querySelector('[data-id="water"]').textContent =
+      mealsArray[i].water;
 
-    tableRow.querySelector("tr").setAttribute("data-identifier", meal.id);
-
+    // append create table row to meal table body
     mealTableBody.appendChild(tableRow);
   }
-  document.getElementById("tableTrackingText").innerText = "All Meals";
+  document.getElementById("tableTrackingText").innerText =
+    "Daily Average / Year";
 }
 
 function generateId() {
@@ -629,7 +780,7 @@ function calculateAndSetDailyCards() {
   document.getElementById("fiberCount").textContent = fiberCount;
   document.getElementById("waterCount").textContent = waterCount;
 
-  document.getElementById("cardTrackingText").innerText = "Total Today";
+  document.getElementById("cardTrackingText").innerText = "Today's Totals";
 }
 
 function calculateAndSetMonthlyCards() {
@@ -650,7 +801,29 @@ function calculateAndSetMonthlyCards() {
     }
   }
 
-  document.getElementById("cardTrackingText").innerText = "Average this Month";
+  document.getElementById("cardTrackingText").innerText =
+    "Daily Averages this Month";
+}
+
+function calculateAndSetYearlyCards() {
+  let mealsArray = createYearlyMealsObjectArray();
+
+  let currentDate = new Date().toISOString().split("T")[0];
+  let currentYear = currentDate.split("-")[0];
+
+  for (let i = 0; i < mealsArray.length; i++) {
+    if (mealsArray[i].date == currentYear) {
+      document.getElementById("calorieCount").textContent =
+        mealsArray[i].calories;
+      document.getElementById("proteinCount").textContent =
+        mealsArray[i].protein;
+      document.getElementById("fiberCount").textContent = mealsArray[i].fiber;
+      document.getElementById("waterCount").textContent = mealsArray[i].water;
+    }
+  }
+
+  document.getElementById("cardTrackingText").innerText =
+    "Daily Averages this Year";
 }
 
 function filterMeals(filter) {

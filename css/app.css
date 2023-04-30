@@ -1,3 +1,5 @@
+@import url(/css/site.css);
+
 .stickySidebar {
   top: 0;
   right: 0;
@@ -40,6 +42,19 @@
  border-color: white;
 }
 
+.btn-primary {
+  --bs-btn-font-weight: 500;
+  --bs-btn-color: var(--jg-content);
+  --bs-btn-bg: var(--jg-button-color-1);
+  --bs-btn-border-color: var(--jg-button-color-1);
+  --bs-btn-hover-color: var(--jg-content-color);
+  --bs-btn-hover-bg: var(--jg-button-color-1);
+  --bs-btn-hover-border-color: var(--jg-button-color-1);
+  --bs-btn-focus-shadow-rgb: var(--jg-content);
+  --bs-btn-active-color: var(--jg-content-color);
+  --bs-btn-active-bg: var(--jg-button-color-2);
+  --bs-btn-active-border-color: var(--jg-button-color-1);
+}
 
 @media (max-width: 310px) {
   #btnCol {
