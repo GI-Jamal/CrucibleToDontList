@@ -302,7 +302,7 @@ function getAllMeals() {
   }
 
   allMeals = allMeals.sort((meal1, meal2) =>
-    Number(Number(new Date(meal2.date) - new Date(meal1.date)))
+    Number(new Date(meal1.date) - new Date(meal2.date))
   );
   return allMeals;
 }
@@ -772,6 +772,7 @@ function calculateAndSetDailyCards() {
       proteinCount += dailyMeals[i].protein;
       fiberCount += dailyMeals[i].fiber;
       waterCount += dailyMeals[i].water;
+      break;
     }
   }
 
@@ -786,20 +787,29 @@ function calculateAndSetDailyCards() {
 function calculateAndSetMonthlyCards() {
   let mealsArray = createMonthlyMealsObjectArray();
 
+  let calorieCount = 0;
+  let proteinCount = 0;
+  let fiberCount = 0;
+  let waterCount = 0;
+
   let currentDate = new Date().toISOString().split("T")[0];
   let currentMonth =
     currentDate.split("-")[0] + "-" + currentDate.split("-")[1];
 
   for (let i = 0; i < mealsArray.length; i++) {
     if (mealsArray[i].date == currentMonth) {
-      document.getElementById("calorieCount").textContent =
-        mealsArray[i].calories;
-      document.getElementById("proteinCount").textContent =
-        mealsArray[i].protein;
-      document.getElementById("fiberCount").textContent = mealsArray[i].fiber;
-      document.getElementById("waterCount").textContent = mealsArray[i].water;
+      calorieCount += mealsArray[i].calories;
+      proteinCount += mealsArray[i].protein;
+      fiberCount += mealsArray[i].fiber;
+      waterCount += mealsArray[i].water;
+      break;
     }
   }
+
+  document.getElementById("calorieCount").textContent = calorieCount;
+  document.getElementById("proteinCount").textContent = proteinCount;
+  document.getElementById("fiberCount").textContent = fiberCount;
+  document.getElementById("waterCount").textContent = waterCount;
 
   document.getElementById("cardTrackingText").innerText =
     "Daily Averages this Month";
@@ -808,19 +818,28 @@ function calculateAndSetMonthlyCards() {
 function calculateAndSetYearlyCards() {
   let mealsArray = createYearlyMealsObjectArray();
 
+  let calorieCount = 0;
+  let proteinCount = 0;
+  let fiberCount = 0;
+  let waterCount = 0;
+
   let currentDate = new Date().toISOString().split("T")[0];
   let currentYear = currentDate.split("-")[0];
 
   for (let i = 0; i < mealsArray.length; i++) {
     if (mealsArray[i].date == currentYear) {
-      document.getElementById("calorieCount").textContent =
-        mealsArray[i].calories;
-      document.getElementById("proteinCount").textContent =
-        mealsArray[i].protein;
-      document.getElementById("fiberCount").textContent = mealsArray[i].fiber;
-      document.getElementById("waterCount").textContent = mealsArray[i].water;
+      calorieCount += mealsArray[i].calories;
+      proteinCount += mealsArray[i].protein;
+      fiberCount += mealsArray[i].fiber;
+      waterCount += mealsArray[i].water;
+      break;
     }
   }
+
+  document.getElementById("calorieCount").textContent = calorieCount;
+  document.getElementById("proteinCount").textContent = proteinCount;
+  document.getElementById("fiberCount").textContent = fiberCount;
+  document.getElementById("waterCount").textContent = waterCount;
 
   document.getElementById("cardTrackingText").innerText =
     "Daily Averages this Year";
