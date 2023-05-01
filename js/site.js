@@ -502,6 +502,52 @@ function createDailyMealsObjectArray() {
   return mealRows;
 }
 
+function createWeeklyMealsObjectArray() {
+  let mealsArray = createDailyMealsObjectArray();
+  let firstDay = new Date(mealsArray[0].date + "T00:00");
+  let lastDay = new Date(mealsArray[mealsArray.length - 1].date + "T00:00");
+
+  // let today = new Date();
+  // let nextWeek = new Date(today.getDate() + 7);
+
+  if (firstDay.getDay() != 0) {
+    firstDay.setDate(firstDay.getDate() - firstDay.getDay());
+  }
+
+  let difference = lastDay.getTime() - firstDay.getTime();
+  let differenceInDays = Math.round(difference / (1000 * 3600 * 24));
+
+  for (let i = 0; i < differenceInDays; i += 7) {
+    let dummyDate = new Date(firstDay.setDate(firstDay.getDate() + i));
+    let dummyDateString = dummyDate.toISOString().split("T")[0];
+
+    let mealWeek = {
+      date: dummyDateString,
+      calories: 0,
+      protein: 0,
+      fiber: 0,
+      water: 0,
+    };
+
+    console.log(mealWeek);
+
+    meals;
+
+    for (let j = 0; j < mealsArray.length - 1; j++) {
+      let currentMeal = mealsArray[j];
+      let currentMealDateString = currentMeal.date;
+      let currentMealDate = new Date(currentMealDateString);
+      // if ()
+      // {
+      //   mealWeek.calories += currentMeal.calories;
+      //   mealWeek.protein += currentMeal.protein;
+      //   mealWeek.fiber += currentMeal.fiber;
+      //   mealWeek.water += currentMeal.water;
+      // }
+    }
+  }
+}
+
 function createMonthlyMealsObjectArray() {
   let mealsArray = createDailyMealsObjectArray();
 
@@ -670,6 +716,10 @@ function displayDailyMeals() {
     mealTableBody.appendChild(tableRow);
   }
   document.getElementById("tableTrackingText").innerText = "Daily Totals";
+}
+
+function displayWeeklyMeals() {
+  let mealsArray = createWeeklyMealsObjectArray();
 }
 
 function displayMonthlyMeals() {
