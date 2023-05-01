@@ -600,6 +600,9 @@ function createYearlyMealsObjectArray() {
 
 function displayAllMeals() {
   let mealsArray = getAllMeals();
+  mealsArray = mealsArray.sort((meal1, meal2) =>
+    Number(new Date(meal2.date) - new Date(meal1.date))
+  );
   let rowTemplate = document.getElementById("allTableRowTemplate");
   let headerTemplate = document.getElementById("allTableHeaderTemplate");
   mealTableHeader.innerHTML = "";
@@ -629,6 +632,9 @@ function displayAllMeals() {
 
 function displayDailyMeals() {
   let mealsArray = createDailyMealsObjectArray();
+  mealsArray = mealsArray.sort((meal1, meal2) =>
+    Number(new Date(meal2.date) - new Date(meal1.date))
+  );
   // reset meal table
   mealTableHeader.innerHTML = "";
   mealTableBody.innerHTML = "";
@@ -668,6 +674,9 @@ function displayDailyMeals() {
 
 function displayMonthlyMeals() {
   let mealsArray = createMonthlyMealsObjectArray();
+  mealsArray = mealsArray.sort((meal1, meal2) =>
+    Number(new Date(meal2.date) - new Date(meal1.date))
+  );
   // reset meal table
   mealTableHeader.innerHTML = "";
   mealTableBody.innerHTML = "";
@@ -708,6 +717,9 @@ function displayMonthlyMeals() {
 
 function displayYearlyMeals() {
   let mealsArray = createYearlyMealsObjectArray();
+  mealsArray = mealsArray.sort((meal1, meal2) =>
+    Number(new Date(meal2.date) - new Date(meal1.date))
+  );
   // reset meal table
   mealTableHeader.innerHTML = "";
   mealTableBody.innerHTML = "";
