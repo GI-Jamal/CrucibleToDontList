@@ -19,39 +19,6 @@ const mealTableHeader = document.getElementById("mealTableHeader");
 const staticMeals = [
   {
     id: null,
-    date: "2023-01-01",
-    name: "Eggs and toast",
-    type: "Breakfast",
-    calories: 500,
-    protein: 40,
-    fiber: 10,
-    weight: 500,
-    water: 0.5,
-  },
-  {
-    id: null,
-    date: "2023-01-01",
-    name: "Soup and sandwich",
-    type: "Lunch",
-    calories: 600,
-    protein: 40,
-    fiber: 10,
-    weight: 500,
-    water: 0.5,
-  },
-  {
-    id: null,
-    date: "2023-01-01",
-    name: "Chicken and sald",
-    type: "Dinner",
-    calories: 900,
-    protein: 40,
-    fiber: 10,
-    weight: 500,
-    water: 0.5,
-  },
-  {
-    id: null,
     date: "2023-01-02",
     name: "Pancakes and bacon",
     type: "Breakfast",
@@ -309,7 +276,7 @@ function getAllMeals() {
 
 function addMeal() {
   try {
-    let mealDate = new Date(document.getElementById("newMealDate").value)
+    let mealDate = new Date(document.getElementById("newMealDate").value + "T00:00")
       .toISOString()
       .split("T")[0];
     let mealName = document.getElementById("newMealName").value;
@@ -354,7 +321,7 @@ function addMeal() {
       allMeals.push(newMeal);
       localStorage.setItem("jgMealZealMeals", JSON.stringify(allMeals));
 
-      displayAllMeals();
+      getValues();
       document.getElementById("newMealForm").reset();
     }
   } catch (err) {
@@ -376,7 +343,7 @@ function deleteMeal() {
 
   localStorage.setItem("jgMealZealMeals", JSON.stringify(filteredMeals));
 
-  displayAllMeals();
+  getValues();
 }
 
 function editMeal(mealRow) {
@@ -456,7 +423,8 @@ function updateMeal() {
       allMeals[index] = newMeal;
 
       localStorage.setItem("jgMealZealMeals", JSON.stringify(allMeals));
-      displayAllMeals();
+      
+      getValues();
 
       document.getElementById("editMealForm").reset();
     }
@@ -506,9 +474,7 @@ function createWeeklyMealsObjectArray() {
   let mealsArray = createDailyMealsObjectArray();
   let firstDay = new Date(mealsArray[0].date + "T00:00");
   let lastDay = new Date(mealsArray[mealsArray.length - 1].date + "T00:00");
-
-  // let today = new Date();
-  // let nextWeek = new Date(today.getDate() + 7);
+  let mealRows = [];
 
   if (firstDay.getDay() != 0) {
     firstDay.setDate(firstDay.getDate() - firstDay.getDay());
@@ -518,7 +484,7 @@ function createWeeklyMealsObjectArray() {
   let differenceInDays = Math.round(difference / (1000 * 3600 * 24));
 
   for (let i = 0; i < differenceInDays; i += 7) {
-    let dummyDate = new Date(firstDay.setDate(firstDay.getDate() + i));
+    let dummyDate = new Date(firstDay.getTime() + i * 24 * 3600 * 1000);
     let dummyDateString = dummyDate.toISOString().split("T")[0];
 
     let mealWeek = {
@@ -527,25 +493,38 @@ function createWeeklyMealsObjectArray() {
       protein: 0,
       fiber: 0,
       water: 0,
+      count: 0,
     };
 
-    console.log(mealWeek);
-
-    meals;
-
-    for (let j = 0; j < mealsArray.length - 1; j++) {
+    for (let j = 0; j < mealsArray.length; j++) {
       let currentMeal = mealsArray[j];
-      let currentMealDateString = currentMeal.date;
-      let currentMealDate = new Date(currentMealDateString);
-      // if ()
-      // {
-      //   mealWeek.calories += currentMeal.calories;
-      //   mealWeek.protein += currentMeal.protein;
-      //   mealWeek.fiber += currentMeal.fiber;
-      //   mealWeek.water += currentMeal.water;
-      // }
+      let currentMealDate = new Date(currentMeal.date + "T00:00");
+      let currentMealDateMinusItself = new Date(
+        currentMealDate.getTime() - (currentMealDate.getDay() * 24 * 3600 * 1000)
+      );
+      if (currentMealDateMinusItself.toDateString() == dummyDate.toDateString()) {
+        mealWeek.calories += currentMeal.calories;
+        mealWeek.protein += currentMeal.protein;
+        mealWeek.fiber += currentMeal.fiber;
+        mealWeek.water += currentMeal.water;
+        mealWeek.count++;
+      }
+    }
+    mealWeek.calories = mealWeek.calories / mealWeek.count;
+    mealWeek.protein = mealWeek.protein / mealWeek.count;
+    mealWeek.fiber = mealWeek.fiber / mealWeek.count;
+    mealWeek.water = mealWeek.water / mealWeek.count;
+
+    if (
+      mealWeek.calories > 0 ||
+      mealWeek.protein > 0 ||
+      mealWeek.fiber > 0 ||
+      mealWeek.water > 0
+    ) {
+      mealRows.push(mealWeek);
     }
   }
+  return mealRows;
 }
 
 function createMonthlyMealsObjectArray() {
@@ -720,6 +699,45 @@ function displayDailyMeals() {
 
 function displayWeeklyMeals() {
   let mealsArray = createWeeklyMealsObjectArray();
+  mealsArray = mealsArray.sort((meal1, meal2) =>
+    Number(new Date(meal2.date) - new Date(meal1.date))
+  );
+  // reset meal table
+  mealTableHeader.innerHTML = "";
+  mealTableBody.innerHTML = "";
+
+  // assign appropriate table templates to variables
+  let headerTemplate = document.getElementById("filteredTableHeaderTemplate");
+  let rowTemplate = document.getElementById("filteredTableRowTemplate");
+
+  // append table header template to meal table header
+  mealTableHeader.appendChild(
+    document.importNode(headerTemplate.content, true)
+  );
+
+  document.getElementById("timeFrame").innerHTML = "Week Of";
+
+  // iterate through meals array argument
+  for (let i = 0; i < mealsArray.length; i++) {
+    // deep copy appropriate row template and assign to a variable
+    let tableRow = document.importNode(rowTemplate.content, true);
+
+    // input appropriate data to each table row cell
+    tableRow.querySelector('[data-id="date"]').textContent = mealsArray[i].date;
+    tableRow.querySelector('[data-id="calories"]').textContent =
+      mealsArray[i].calories;
+    tableRow.querySelector('[data-id="protein"]').textContent =
+      mealsArray[i].protein;
+    tableRow.querySelector('[data-id="fiber"]').textContent =
+      mealsArray[i].fiber;
+    tableRow.querySelector('[data-id="water"]').textContent =
+      mealsArray[i].water;
+
+    // append create table row to meal table body
+    mealTableBody.appendChild(tableRow);
+  }
+  document.getElementById("tableTrackingText").innerText =
+    "Daily Averages / Week";
 }
 
 function displayMonthlyMeals() {
@@ -844,6 +862,39 @@ function calculateAndSetDailyCards() {
   document.getElementById("waterCount").textContent = waterCount;
 
   document.getElementById("cardTrackingText").innerText = "Today's Totals";
+}
+
+function calculateAndSetWeeklyCards() {
+  let mealsArray = createWeeklyMealsObjectArray();
+
+  let calorieCount = 0;
+  let proteinCount = 0;
+  let fiberCount = 0;
+  let waterCount = 0;
+
+  let today = new Date();
+  let dummyWeek = new Date(today.getTime() - (today.getDay() * 24 * 3600 * 1000));
+  let dummyWeekString = dummyWeek.toDateString();
+  let currentWeekString = (new Date(dummyWeekString)).toISOString().split("T")[0];
+
+  for (let i = 0; i < mealsArray.length; i++)
+  {
+    if (currentWeekString == mealsArray[i].date)
+    {
+      calorieCount += mealsArray[i].calories;
+      proteinCount += mealsArray[i].protein;
+      fiberCount += mealsArray[i].fiber;
+      waterCount += mealsArray[i].water;
+      break;
+    }
+  }
+  
+  document.getElementById("calorieCount").textContent = calorieCount;
+  document.getElementById("proteinCount").textContent = proteinCount;
+  document.getElementById("fiberCount").textContent = fiberCount;
+  document.getElementById("waterCount").textContent = waterCount;
+
+  document.getElementById("cardTrackingText").innerText = "Daily Averages this Week";
 }
 
 function calculateAndSetMonthlyCards() {
