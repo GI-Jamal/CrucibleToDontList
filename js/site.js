@@ -276,7 +276,9 @@ function getAllMeals() {
 
 function addMeal() {
   try {
-    let mealDate = new Date(document.getElementById("newMealDate").value + "T00:00")
+    let mealDate = new Date(
+      document.getElementById("newMealDate").value + "T00:00"
+    )
       .toISOString()
       .split("T")[0];
     let mealName = document.getElementById("newMealName").value;
@@ -423,7 +425,7 @@ function updateMeal() {
       allMeals[index] = newMeal;
 
       localStorage.setItem("jgMealZealMeals", JSON.stringify(allMeals));
-      
+
       getValues();
 
       document.getElementById("editMealForm").reset();
@@ -500,9 +502,11 @@ function createWeeklyMealsObjectArray() {
       let currentMeal = mealsArray[j];
       let currentMealDate = new Date(currentMeal.date + "T00:00");
       let currentMealDateMinusItself = new Date(
-        currentMealDate.getTime() - (currentMealDate.getDay() * 24 * 3600 * 1000)
+        currentMealDate.getTime() - currentMealDate.getDay() * 24 * 3600 * 1000
       );
-      if (currentMealDateMinusItself.toDateString() == dummyDate.toDateString()) {
+      if (
+        currentMealDateMinusItself.toDateString() == dummyDate.toDateString()
+      ) {
         mealWeek.calories += currentMeal.calories;
         mealWeek.protein += currentMeal.protein;
         mealWeek.fiber += currentMeal.fiber;
@@ -510,10 +514,14 @@ function createWeeklyMealsObjectArray() {
         mealWeek.count++;
       }
     }
-    mealWeek.calories = mealWeek.calories / mealWeek.count;
-    mealWeek.protein = mealWeek.protein / mealWeek.count;
-    mealWeek.fiber = mealWeek.fiber / mealWeek.count;
-    mealWeek.water = mealWeek.water / mealWeek.count;
+    mealWeek.calories =
+      Math.round((mealWeek.calories / mealWeek.count) * 100) / 100;
+    mealWeek.protein =
+      Math.round((mealWeek.protein / mealWeek.count) * 100) / 100;
+    mealWeek.fiber =
+      Math.round((mealWeek.fiber / mealWeek.count) * 100) / 100;
+    mealWeek.water =
+      Math.round((mealWeek.water / mealWeek.count) * 100) / 100;
 
     if (
       mealWeek.calories > 0 ||
@@ -565,18 +573,27 @@ function createMonthlyMealsObjectArray() {
         count++;
       }
     }
-    mealMonthData.calories = Math.round(mealMonthData.calories / count);
-    mealMonthData.protein = Math.round(mealMonthData.protein / count);
-    mealMonthData.fiber = Math.round(mealMonthData.fiber / count);
-    mealMonthData.water = Math.round(mealMonthData.water / count);
+    mealMonthData.calories =
+      Math.round((mealMonthData.calories / count) * 100) / 100;
+    mealMonthData.protein =
+      Math.round((mealMonthData.protein / count) * 100) / 100;
+    mealMonthData.fiber = Math.round((mealMonthData.fiber / count) * 100) / 100;
+    mealMonthData.water = Math.round((mealMonthData.water / count) * 100) / 100;
 
-    mealRows.push(mealMonthData);
+    if (
+      mealMonthData.calories > 0 ||
+      mealMonthData.protein > 0 ||
+      mealMonthData.fiber > 0 ||
+      mealMonthData.water > 0
+    ) {
+      mealRows.push(mealMonthData);
+    }
   }
   return mealRows;
 }
 
 function createYearlyMealsObjectArray() {
-  let mealsArray = createMonthlyMealsObjectArray();
+  let mealsArray = createDailyMealsObjectArray();
 
   let mealRows = [];
   let mealYears = new Set();
@@ -613,12 +630,21 @@ function createYearlyMealsObjectArray() {
         count++;
       }
     }
-    mealYearData.calories = Math.round(mealYearData.calories / count);
-    mealYearData.protein = Math.round(mealYearData.protein / count);
-    mealYearData.fiber = Math.round(mealYearData.fiber / count);
-    mealYearData.water = Math.round(mealYearData.water / count);
+    mealYearData.calories =
+      Math.round((mealYearData.calories / count) * 100) / 100;
+    mealYearData.protein =
+      Math.round((mealYearData.protein / count) * 100) / 100;
+    mealYearData.fiber = Math.round((mealYearData.fiber / count) * 100) / 100;
+    mealYearData.water = Math.round((mealYearData.water / count) * 100) / 100;
 
-    mealRows.push(mealYearData);
+    if (
+      mealYearData.calories > 0 ||
+      mealYearData.protein > 0 ||
+      mealYearData.fiber > 0 ||
+      mealYearData.water > 0
+    ) {
+      mealRows.push(mealYearData);
+    }
   }
   return mealRows;
 }
@@ -873,14 +899,12 @@ function calculateAndSetWeeklyCards() {
   let waterCount = 0;
 
   let today = new Date();
-  let dummyWeek = new Date(today.getTime() - (today.getDay() * 24 * 3600 * 1000));
+  let dummyWeek = new Date(today.getTime() - today.getDay() * 24 * 3600 * 1000);
   let dummyWeekString = dummyWeek.toDateString();
-  let currentWeekString = (new Date(dummyWeekString)).toISOString().split("T")[0];
+  let currentWeekString = new Date(dummyWeekString).toISOString().split("T")[0];
 
-  for (let i = 0; i < mealsArray.length; i++)
-  {
-    if (currentWeekString == mealsArray[i].date)
-    {
+  for (let i = 0; i < mealsArray.length; i++) {
+    if (currentWeekString == mealsArray[i].date) {
       calorieCount += mealsArray[i].calories;
       proteinCount += mealsArray[i].protein;
       fiberCount += mealsArray[i].fiber;
@@ -888,13 +912,14 @@ function calculateAndSetWeeklyCards() {
       break;
     }
   }
-  
+
   document.getElementById("calorieCount").textContent = calorieCount;
   document.getElementById("proteinCount").textContent = proteinCount;
   document.getElementById("fiberCount").textContent = fiberCount;
   document.getElementById("waterCount").textContent = waterCount;
 
-  document.getElementById("cardTrackingText").innerText = "Daily Averages this Week";
+  document.getElementById("cardTrackingText").innerText =
+    "Daily Averages this Week";
 }
 
 function calculateAndSetMonthlyCards() {
