@@ -876,7 +876,7 @@ function filterCards(filter) {
     calculateAndSetWeeklyCards();
   } else if (filter == "Month") {
     calculateAndSetMonthlyCards();
-  } else if (filer == "Year") {
+  } else if (filter == "Year") {
     calculateAndSetYearlyCards();
   }
 }
