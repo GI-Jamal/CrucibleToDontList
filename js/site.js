@@ -470,7 +470,7 @@ function createWeeklyMealsObjectArray() {
   let difference = lastDay.getTime() - firstDay.getTime();
   let differenceInDays = Math.round(difference / (1000 * 3600 * 24));
 
-  for (let i = 0; i < differenceInDays; i += 7) {
+  for (let i = 0; i <= differenceInDays; i += 7) {
     let dummyDate = new Date(firstDay.getTime() + i * 24 * 3600 * 1000);
     let dummyDateString = dummyDate.toISOString().split("T")[0];
 
