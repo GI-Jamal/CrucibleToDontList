@@ -1,17 +1,9 @@
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
+const tooltipTriggerList = document.querySelectorAll(
+  '[data-bs-toggle="tooltip"]'
+);
+const tooltipList = [...tooltipTriggerList].map(
+  (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+);
 
 const mealTableBody = document.getElementById("mealTable");
 const mealTableHeader = document.getElementById("mealTableHeader");
@@ -227,13 +219,6 @@ const staticMeals = [
     water: 0.5,
   },
 ];
-
-const tooltipTriggerList = document.querySelectorAll(
-  '[data-bs-toggle="tooltip"]'
-);
-const tooltipList = [...tooltipTriggerList].map(
-  (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
-);
 
 function getValues() {
   let data = localStorage.getItem("jgMealZealMeals");
@@ -518,10 +503,8 @@ function createWeeklyMealsObjectArray() {
       Math.round((mealWeek.calories / mealWeek.count) * 100) / 100;
     mealWeek.protein =
       Math.round((mealWeek.protein / mealWeek.count) * 100) / 100;
-    mealWeek.fiber =
-      Math.round((mealWeek.fiber / mealWeek.count) * 100) / 100;
-    mealWeek.water =
-      Math.round((mealWeek.water / mealWeek.count) * 100) / 100;
+    mealWeek.fiber = Math.round((mealWeek.fiber / mealWeek.count) * 100) / 100;
+    mealWeek.water = Math.round((mealWeek.water / mealWeek.count) * 100) / 100;
 
     if (
       mealWeek.calories > 0 ||
@@ -681,8 +664,8 @@ function displayAllMeals() {
   document.getElementById("tableTrackingText").innerText = "All Meals";
 }
 
-function displayDailyMeals() {
-  let mealsArray = createDailyMealsObjectArray();
+function displayFilteredMeals(filteredMealsArray, timeFrame) {
+  let mealsArray = filteredMealsArray;
   mealsArray = mealsArray.sort((meal1, meal2) =>
     Number(new Date(meal2.date) - new Date(meal1.date))
   );
@@ -698,8 +681,6 @@ function displayDailyMeals() {
   mealTableHeader.appendChild(
     document.importNode(headerTemplate.content, true)
   );
-
-  document.getElementById("timeFrame").innerHTML = "Date";
 
   // iterate through meals array argument
   for (let i = 0; i < mealsArray.length; i++) {
@@ -720,136 +701,23 @@ function displayDailyMeals() {
     // append create table row to meal table body
     mealTableBody.appendChild(tableRow);
   }
-  document.getElementById("tableTrackingText").innerText = "Daily Totals";
-}
 
-function displayWeeklyMeals() {
-  let mealsArray = createWeeklyMealsObjectArray();
-  mealsArray = mealsArray.sort((meal1, meal2) =>
-    Number(new Date(meal2.date) - new Date(meal1.date))
-  );
-  // reset meal table
-  mealTableHeader.innerHTML = "";
-  mealTableBody.innerHTML = "";
+  let timeFrameText = document.getElementById("timeFrame");
+  let tableTrackingText = document.getElementById("tableTrackingText");
 
-  // assign appropriate table templates to variables
-  let headerTemplate = document.getElementById("filteredTableHeaderTemplate");
-  let rowTemplate = document.getElementById("filteredTableRowTemplate");
-
-  // append table header template to meal table header
-  mealTableHeader.appendChild(
-    document.importNode(headerTemplate.content, true)
-  );
-
-  document.getElementById("timeFrame").innerHTML = "Week Of";
-
-  // iterate through meals array argument
-  for (let i = 0; i < mealsArray.length; i++) {
-    // deep copy appropriate row template and assign to a variable
-    let tableRow = document.importNode(rowTemplate.content, true);
-
-    // input appropriate data to each table row cell
-    tableRow.querySelector('[data-id="date"]').textContent = mealsArray[i].date;
-    tableRow.querySelector('[data-id="calories"]').textContent =
-      mealsArray[i].calories;
-    tableRow.querySelector('[data-id="protein"]').textContent =
-      mealsArray[i].protein;
-    tableRow.querySelector('[data-id="fiber"]').textContent =
-      mealsArray[i].fiber;
-    tableRow.querySelector('[data-id="water"]').textContent =
-      mealsArray[i].water;
-
-    // append create table row to meal table body
-    mealTableBody.appendChild(tableRow);
+  if (timeFrame == "Daily") {
+    timeFrameText.innerText = "Date";
+    tableTrackingText.innerText = "Daily Totals";
+  } else if (timeFrame == "Weekly") {
+    timeFrameText.innerText = "Week Of";
+    tableTrackingText.innerText = "Daily Averages / Week";
+  } else if (timeFrame == "Monthly") {
+    timeFrameText.innerText = "Month";
+    tableTrackingText.innerText = "Daily Averages / Month";
+  } else if (timeFrame == "Yearly") {
+    timeFrameText.innerText = "Year";
+    tableTrackingText.innerText = "Daily Averages / Year";
   }
-  document.getElementById("tableTrackingText").innerText =
-    "Daily Averages / Week";
-}
-
-function displayMonthlyMeals() {
-  let mealsArray = createMonthlyMealsObjectArray();
-  mealsArray = mealsArray.sort((meal1, meal2) =>
-    Number(new Date(meal2.date) - new Date(meal1.date))
-  );
-  // reset meal table
-  mealTableHeader.innerHTML = "";
-  mealTableBody.innerHTML = "";
-
-  // assign appropriate table templates to variables
-  let headerTemplate = document.getElementById("filteredTableHeaderTemplate");
-  let rowTemplate = document.getElementById("filteredTableRowTemplate");
-
-  // append table header template to meal table header
-  mealTableHeader.appendChild(
-    document.importNode(headerTemplate.content, true)
-  );
-
-  document.getElementById("timeFrame").innerHTML = "Month";
-
-  // iterate through meals array argument
-  for (let i = 0; i < mealsArray.length; i++) {
-    // deep copy appropriate row template and assign to a variable
-    let tableRow = document.importNode(rowTemplate.content, true);
-
-    // input appropriate data to each table row cell
-    tableRow.querySelector('[data-id="date"]').textContent = mealsArray[i].date;
-    tableRow.querySelector('[data-id="calories"]').textContent =
-      mealsArray[i].calories;
-    tableRow.querySelector('[data-id="protein"]').textContent =
-      mealsArray[i].protein;
-    tableRow.querySelector('[data-id="fiber"]').textContent =
-      mealsArray[i].fiber;
-    tableRow.querySelector('[data-id="water"]').textContent =
-      mealsArray[i].water;
-
-    // append create table row to meal table body
-    mealTableBody.appendChild(tableRow);
-  }
-  document.getElementById("tableTrackingText").innerText =
-    "Daily Averages / Month";
-}
-
-function displayYearlyMeals() {
-  let mealsArray = createYearlyMealsObjectArray();
-  mealsArray = mealsArray.sort((meal1, meal2) =>
-    Number(new Date(meal2.date) - new Date(meal1.date))
-  );
-  // reset meal table
-  mealTableHeader.innerHTML = "";
-  mealTableBody.innerHTML = "";
-
-  // assign appropriate table templates to variables
-  let headerTemplate = document.getElementById("filteredTableHeaderTemplate");
-  let rowTemplate = document.getElementById("filteredTableRowTemplate");
-
-  // append table header template to meal table header
-  mealTableHeader.appendChild(
-    document.importNode(headerTemplate.content, true)
-  );
-
-  document.getElementById("timeFrame").innerHTML = "Year";
-
-  // iterate through meals array argument
-  for (let i = 0; i < mealsArray.length; i++) {
-    // deep copy appropriate row template and assign to a variable
-    let tableRow = document.importNode(rowTemplate.content, true);
-
-    // input appropriate data to each table row cell
-    tableRow.querySelector('[data-id="date"]').textContent = mealsArray[i].date;
-    tableRow.querySelector('[data-id="calories"]').textContent =
-      mealsArray[i].calories;
-    tableRow.querySelector('[data-id="protein"]').textContent =
-      mealsArray[i].protein;
-    tableRow.querySelector('[data-id="fiber"]').textContent =
-      mealsArray[i].fiber;
-    tableRow.querySelector('[data-id="water"]').textContent =
-      mealsArray[i].water;
-
-    // append create table row to meal table body
-    mealTableBody.appendChild(tableRow);
-  }
-  document.getElementById("tableTrackingText").innerText =
-    "Daily Average / Year";
 }
 
 function generateId() {
@@ -986,22 +854,18 @@ function calculateAndSetYearlyCards() {
 function filterMeals(filter) {
   if (filter == "All") {
     displayAllMeals();
-  }
-
-  if (filter == "Daily") {
-    displayDailyMeals();
-  }
-
-  if (filter == "Weekly") {
-    displayWeeklyMeals();
-  }
-
-  if (filter == "Monthly") {
-    displayMonthlyMeals();
-  }
-
-  if (filter == "Yearly") {
-    displayYearlyMeals();
+  } else if (filter == "Daily") {
+    let filteredMealsArray = createDailyMealsObjectArray();
+    displayFilteredMeals(filteredMealsArray, filter);
+  } else if (filter == "Weekly") {
+    let filteredMealsArray = createWeeklyMealsObjectArray();
+    displayFilteredMeals(filteredMealsArray, filter);
+  } else if (filter == "Monthly") {
+    let filteredMealsArray = createMonthlyMealsObjectArray();
+    displayFilteredMeals(filteredMealsArray, filter);
+  } else if (filter == "Yearly") {
+    let filteredMealsArray = createYearlyMealsObjectArray();
+    displayFilteredMeals(filteredMealsArray, filter);
   }
 }
 
@@ -1012,7 +876,7 @@ function filterCards(filter) {
     calculateAndSetWeeklyCards();
   } else if (filter == "Month") {
     calculateAndSetMonthlyCards();
-  } else {
+  } else if (filer == "Year") {
     calculateAndSetYearlyCards();
   }
 }
